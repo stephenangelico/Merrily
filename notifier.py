@@ -1,6 +1,7 @@
 # Web server to run on system to be notified
 # Upon reception of external doorbell signal, send a system notification
 import os
+from subprocess import call
 from flask import Flask
 
 import json
@@ -20,4 +21,4 @@ def wrong_path():
 @app.route("/ring", methods=["POST"])
 def notify_doorbell():
 	# Use shell to run notify-send
-	pass
+	call(["notify-send", "Doorbell!", "Someone's knocking at the door!"])
