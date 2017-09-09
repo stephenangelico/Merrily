@@ -6,7 +6,7 @@ from flask import Flask
 
 import json
 from flask import request, Response
-from jsonschema import validate, ValidationError
+#from jsonschema import validate, ValidationError
 
 app = Flask(__name__)
 # Copied from tuneful
@@ -22,3 +22,4 @@ def wrong_path():
 def notify_doorbell():
 	# Use shell to run notify-send
 	call(["notify-send", "Doorbell!", "Someone's knocking at the door!"])
+	return Response("Done", 200, mimetype="text/plain")
