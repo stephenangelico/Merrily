@@ -2,7 +2,7 @@
 from gpiozero import Button
 import requests
 
-button = Button(17, bounce_time=5)
+button = Button(26, bounce_time=5)
 
 def bell_ring():
 	button.wait_for_press()
