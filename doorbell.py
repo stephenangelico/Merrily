@@ -3,7 +3,7 @@ from gpiozero import Button
 import requests
 import time
 
-button = Button(3)
+button = Button(26)
 
 def bell_ring():
 	button.wait_for_press()
