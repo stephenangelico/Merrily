@@ -10,5 +10,5 @@ def bell_ring():
 	requests.post('http://f-22raptor:8088/ring')
 	time.sleep(5)
 
-if __name__ == '__main__':
+while __name__ == '__main__':
 	bell_ring()
