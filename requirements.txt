@@ -1,3 +1,5 @@
 Flask
-gpiozero
+RPi.GPIO
 pipenv
+sqlalchemy
+psycopg2
