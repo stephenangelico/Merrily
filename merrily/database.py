@@ -4,7 +4,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, String, Integer, DateTime, Boolean
 
-from notifier import app
+from merrily import app
 
 engine = create_engine(app.config["DATABASE_URI"])
 Base = declarative_base()

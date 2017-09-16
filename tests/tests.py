@@ -2,4 +2,4 @@ import unittest
 import os
 import json
 
-from notifier import app
+from merrily import app

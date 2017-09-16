@@ -1,5 +1,5 @@
 import os
-from notifier import app
+from merrily import app
 
 def run():
     port = int(os.environ.get('PORT', 8088))
