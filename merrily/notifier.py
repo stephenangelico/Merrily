@@ -2,7 +2,7 @@
 # Upon reception of external doorbell signal, send a system notification
 #import os
 #from flask import Flask
-#from .database import session
+from .database import session
 from merrily import app
 
 import json
