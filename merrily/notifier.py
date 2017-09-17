@@ -26,6 +26,8 @@ def notify_doorbell():
 	call(["notify-send", "Doorbell!", "Someone's knocking at the door!"])
 	# Add event to database
 	ring = RingEvent() #Needs no data
+	session.add(ring)
+	session.commit()
 	return Response("Done", 200, mimetype="text/plain")
 
 #TODO: add endpoints for editing event details
