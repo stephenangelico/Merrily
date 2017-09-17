@@ -71,7 +71,7 @@ def analog_read():
 def ring_listen():
 	while True:
 		level = analog_read()
-		if level > 180:
+		if level > 150:
 			bell_ring()
 		time.sleep(1)
 
