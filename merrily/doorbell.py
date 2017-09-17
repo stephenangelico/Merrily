@@ -75,6 +75,30 @@ def ring_listen():
 			bell_ring()
 		time.sleep(1)
 
+def test_listen():
+	state = "idle"
+	low = 200
+	high = 0
+	wentlow = 0
+	wenthigh = 0
+	while "not halted":
+		level = analog_read(); t = time.time()
+		if level > 150:
+			if state == "idle":
+				print("%17.6f Raised  %d, was %d %.6f \33[K" %(t, level, low, t - wentlow))
+				state = "active"
+				wenthigh = t
+			high = max(high, level)
+			low = 200
+		else:
+			if state == "active":
+				print("%17.6f Lowered %d, was %d %.6f \33[K" %(t, level, high, t - wenthigh))
+				state = "idle"
+				wentlow = t
+			low = min(low, level)
+			high = 0
+		print("."*(level//2 - 50), end="\33[K\r")
+
 # Sends request to server then timeout for 5 sec to wait for sound to decay
 def bell_ring():
 	requests.post('http://f-22raptor:8088/ring')
