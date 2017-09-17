@@ -69,12 +69,11 @@ def analog_read():
 
 # provide a loop to display analog data count value on the screen
 def ring_listen():
-	level = 0
 	while True:
 		level = analog_read()
-		time.sleep(1)
 		if level > 180:
 			bell_ring()
+		time.sleep(1)
 
 # Sends request to server then timeout for 5 sec to wait for sound to decay
 def bell_ring():
