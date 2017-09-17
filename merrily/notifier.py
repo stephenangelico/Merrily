@@ -2,7 +2,7 @@
 # Upon reception of external doorbell signal, send a system notification
 #import os
 #from flask import Flask
-from .database import session
+from .database import session, RingEvent
 from merrily import app
 
 import json
@@ -25,7 +25,7 @@ def notify_doorbell():
 	# Use shell to run notify-send
 	call(["notify-send", "Doorbell!", "Someone's knocking at the door!"])
 	# Add event to database
-	#post = models.Post() #Needs no data
+	ring = RingEvent() #Needs no data
 	return Response("Done", 200, mimetype="text/plain")
 
 #TODO: add endpoints for editing event details
