@@ -77,7 +77,7 @@ def value_print():
 def ring_listen():
 	while True:
 		level = analog_read()
-		if level > 160:
+		if level < 120:
 			bell_ring()
 		time.sleep(1)
 
