@@ -68,6 +68,12 @@ def analog_read():
 	return charge_time()
 
 # provide a loop to display analog data count value on the screen
+def value_print():
+	while True:
+		print(analog_read())
+		time.sleep(1)
+
+# Main work function
 def ring_listen():
 	while True:
 		level = analog_read()
@@ -75,6 +81,7 @@ def ring_listen():
 			bell_ring()
 		time.sleep(1)
 
+# debugging function co-written by Chris Angelico
 def test_listen():
 	state = "idle"
 	low = 200
