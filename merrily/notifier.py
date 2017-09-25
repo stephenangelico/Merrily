@@ -3,15 +3,30 @@
 from .database import session, RingEvent
 from merrily import app
 
-import json
-from flask import request, Response
+#import json
 from subprocess import call
+from datetime import datetime, timedelta
 #from jsonschema import validate, ValidationError
+from flask import render_template, request, redirect, url_for, flash, Response
+from flask_login import login_user, login_required, current_user, logout_user
+from werkzeug.security import check_password_hash
+
+@app.template_filter()
+def dateformat(date, format):
+	if not date:
+		return None
+	return date.strftime(format)
 
 @app.route("/", methods=["GET"])
-def wrong_path():
-	# Return static HTML detailing usage
-	pass
+def show_recent_events():
+	# Show ring events from the last 24 hours
+	events = session.query(RingEvent).filter(RingEvent.timestamp > (datetime.now() - timedelta(hours=24)))
+	events = events.order_by(RingEvent.timestamp.desc())
+	
+	return render_template("events.html",
+		events=events,
+		current_user=current_user,
+		)
 
 @app.route("/ring", methods=["POST"])
 def notify_doorbell():

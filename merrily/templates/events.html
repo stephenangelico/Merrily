@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% if has_paginator %}
+	<div class="dropdown">
+		<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Events per page:
+		<span class="caret"></span></button>
+		<ul class="dropdown-menu">
+			<li><a href="?limit=10">10</a></li>
+			<li><a href="?limit=20">20</a></li>
+			<li><a href="?limit=50">50</a></li>
+		<ul>
+	</div>
+	{% endif %}
+
+{% for event in events %}
+<div class="row">
+	<div class="col-md-2 text-right metadata">
+		<ul class="list-unstyled">
+			<li>
+				{{ event.id }}
+			</li>
+			<li>
+				{{ event.timestamp | dateformat("%d/%m/%y") }}
+			</li>
+		</ul>
+	</div>
+</div>
+{% endfor %}
+
+{% endblock %}
