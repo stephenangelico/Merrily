@@ -77,7 +77,7 @@ def value_print():
 def ring_listen():
 	while True:
 		level = analog_read()
-		if level < 110:
+		if level < 100:
 			bell_ring()
 		time.sleep(1)
 
@@ -90,7 +90,7 @@ def test_listen():
 	wenthigh = 0
 	while "not halted":
 		level = analog_read(); t = time.time()
-		if level > 150:
+		if level < 100:
 			if state == "idle":
 				print("%17.6f Raised  %d, was %d %.6f \33[K" %(t, level, low, t - wentlow))
 				state = "active"
