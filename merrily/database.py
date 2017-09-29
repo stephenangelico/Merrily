@@ -18,4 +18,4 @@ class RingEvent(Base):
 	timestamp = Column(DateTime, default=datetime.datetime.now)
 	entity = Column(String(128))
 	notes = Column(String(1024))
-	answered = Column(Boolean, nullable=True)
+	answered = Column(Boolean, default=False)
