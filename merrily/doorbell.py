@@ -77,10 +77,13 @@ def value_print():
 # Main work function
 def ring_listen():
 	while True:
-		level = analog_read()
+		levels = []
+		for i in range(40):
+			levels.append(analog_read())
+			time.sleep(0.025)
+		level = mean(levels)
 		if level < 100:
 			bell_ring()
-		time.sleep(1)
 
 # debugging function co-written by Chris Angelico
 def test_listen():
