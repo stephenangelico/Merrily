@@ -45,4 +45,12 @@ def notify_doorbell():
 	session.commit()
 	return Response("Done", 200, mimetype="text/plain")
 
+@app.route("/entry/<int:id>")
+def single_post(id=1):
+	#TODO: default to latest event instead of first one
+	events = session.query(RingEvent).get(id)
+	return render_template("events.html",
+		events=[events]
+	)
+	
 #TODO: add endpoints for editing event details
