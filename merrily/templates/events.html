@@ -13,19 +13,22 @@
 	</div>
 	{% endif %}
 
-{% for event in events %}
-<div class="row">
-	<div class="col-md-2 text-right metadata">
-		<ul class="list-unstyled">
-			<li>
-				{{ event.id }}
-			</li>
-			<li>
-				{{ event.timestamp | dateformat("%d/%m/%y") }}
-			</li>
-		</ul>
-	</div>
-</div>
-{% endfor %}
+<table class=table>
+	<tr>
+		<th>ID</th>
+		<th>Timestamp</th>
+		<th>Who</th>
+		<th>Notes</th>
+		<th>Answered?</th>
+	</tr>
+	{% for event in events %}
+	<tr>
+		<td>{{ event.id }}</td>
+		<td>{{ event.timestamp | timeformat("%d/%m/%y %r") }}</td>
+		<td>{{ event.entity }}</td>
+		<td>{{ event.notes }}</td>
+		<td>{{ event.answered | boolean_yesno() }}</td>
+	{% endfor %}
+</table>
 
 {% endblock %}
