@@ -117,7 +117,7 @@ def test_ring():
 		level = mean(levels)
 		print(level)
 		if level < 100:
-			print(Doorbell!)
+			print("Doorbell!")
 
 # Sends request to server then timeout for 5 sec to wait for sound to decay
 def bell_ring():
