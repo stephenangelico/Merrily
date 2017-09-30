@@ -37,6 +37,7 @@
 import RPi.GPIO as GPIO
 import time
 import requests
+from statistics import mean
 
 # instantiate GPIO as an object
 GPIO.setmode(GPIO.BCM)
@@ -105,6 +106,18 @@ def test_listen():
 			low = min(low, level)
 			high = 0
 		print("."*(level//2 - 50), end="\33[K\r")
+
+# Averaging test function
+def test_ring():
+	while True:
+		levels = []
+		for i in range(40):
+			levels.append(analog_read())
+			time.sleep(0.025)
+		level = mean(levels)
+		print(level)
+		if level < 100:
+			print(Doorbell!)
 
 # Sends request to server then timeout for 5 sec to wait for sound to decay
 def bell_ring():
