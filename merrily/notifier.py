@@ -12,12 +12,19 @@ from flask_login import login_user, login_required, current_user, logout_user
 from werkzeug.security import check_password_hash
 
 @app.template_filter()
-def dateformat(date, format):
-	if not date:
+def timeformat(timestamp, format):
+	if not timestamp:
 		return None
-	return date.strftime(format)
+	return timestamp.strftime(format)
 
-@app.route("/", methods=["GET"])
+@app.template_filter()
+def boolean_yesno(boolean):
+	if boolean:
+		return "Yes"
+	else:
+		return "No"
+
+@app.route("/")
 def show_recent_events():
 	# Show ring events from the last 24 hours
 	events = session.query(RingEvent).filter(RingEvent.timestamp > (datetime.now() - timedelta(hours=24)))
