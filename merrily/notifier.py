@@ -46,7 +46,7 @@ def notify_doorbell():
 	return Response("Done", 200, mimetype="text/plain")
 
 @app.route("/entry/<int:id>")
-def single_post(id=1):
+def single_event(id=1):
 	#TODO: default to latest event instead of first one
 	events = session.query(RingEvent).get(id)
 	return render_template("events.html",
@@ -54,3 +54,20 @@ def single_post(id=1):
 	)
 	
 #TODO: add endpoints for editing event details
+@app.route("/entry/<int:id>/edit", methods=["GET"])
+#@login_required
+def edit_event_get(id):
+	event = session.query(RingEvent).get(id)
+	return render_template("edit_event.html",
+		event=event
+	)
+
+@app.route("/entry/<int:id>/edit", methods=["POST"])
+#@login_required
+def edit_event_post(id):
+	event = session.query(RingEvent).get(id)
+	event.entity=request.form["entity"]
+	event.notes=request.form["notes"]
+	session.commit()
+	#TODO: redirect to same post
+	return redirect(url_for("single_event", id=id))
