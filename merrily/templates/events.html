@@ -23,7 +23,7 @@
 	</tr>
 	{% for event in events %}
 	<tr>
-		<td>{{ event.id }}</td>
+		<td><a href="{{ url_for('single_post', id=event.id) }}" id="title-{{ event.id }}">{{ event.id }}</a></td>
 		<td>{{ event.timestamp | timeformat("%d/%m/%y %r") }}</td>
 		<td>{{ event.entity }}</td>
 		<td>{{ event.notes }}</td>
