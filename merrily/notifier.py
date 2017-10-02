@@ -53,10 +53,10 @@ def single_event(id=1):
 		events=[events]
 	)
 	
-#TODO: add endpoints for editing event details
 @app.route("/entry/<int:id>/edit", methods=["GET"])
 #@login_required
 def edit_event_get(id):
+	#TODO: add Edit (and delete) links in DOM
 	event = session.query(RingEvent).get(id)
 	return render_template("edit_event.html",
 		event=event
@@ -68,6 +68,11 @@ def edit_event_post(id):
 	event = session.query(RingEvent).get(id)
 	event.entity=request.form["entity"]
 	event.notes=request.form["notes"]
+	# Shorthand for if clause to check trueness of string
+	event.answered=(request.form["answered"] == "true")
 	session.commit()
-	#TODO: redirect to same post
 	return redirect(url_for("single_event", id=id))
+
+#TODO: add function for deleting entries
+
+
