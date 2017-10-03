@@ -1,6 +1,6 @@
 # Web server to run on system to be notified
 # Upon reception of external doorbell signal, send a system notification
-from .database import session, RingEvent
+from .database import session, RingEvent, User
 from merrily import app
 
 #import json
@@ -50,20 +50,22 @@ def single_event(id=1):
 	#TODO: default to latest event instead of first one
 	events = session.query(RingEvent).get(id)
 	return render_template("events.html",
-		events=[events]
+		events=[events],
+		current_user=current_user,
 	)
 	
 @app.route("/entry/<int:id>/edit", methods=["GET"])
-#@login_required
+@login_required
 def edit_event_get(id):
 	#TODO: add Edit (and delete) links in DOM
 	event = session.query(RingEvent).get(id)
 	return render_template("edit_event.html",
-		event=event
+		event=event,
+		current_user=current_user,
 	)
 
 @app.route("/entry/<int:id>/edit", methods=["POST"])
-#@login_required
+@login_required
 def edit_event_post(id):
 	event = session.query(RingEvent).get(id)
 	event.entity=request.form["entity"]
@@ -76,3 +78,26 @@ def edit_event_post(id):
 #TODO: add function for deleting entries
 
 
+@app.route("/login", methods=["GET"])
+def login_get():
+	return render_template("login.html",
+		current_user=current_user,
+	)
+
+@app.route("/login", methods=["POST"])
+def login_post():
+	email = request.form["email"]
+	password = request.form["password"]
+	user = session.query(User).filter_by(email=email).first()
+	if not user or not check_password_hash(user.password, password):
+		flash("Incorrect username or password", "danger")
+		return redirect(url_for("login_get"))
+	
+	login_user(user)
+	return redirect(request.args.get('next') or url_for("show_recent_events"))
+
+@app.route("/logout")
+@login_required
+def logout():
+	logout_user()
+	return redirect(url_for("events"))

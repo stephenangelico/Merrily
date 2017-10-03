@@ -32,6 +32,16 @@
 					</button>
 					<a class="navbar-brand" href="{{ url_for('show_recent_events') }}">Merrily</a>
 				</div>
+				<div class="collapse navbar-collapse">
+					<ul class="nav navbar-nav navbar-right">
+					{% if current_user.is_authenticated %}
+					<li class="username">{{ current_user.name }}</li>
+					<li><a href="{{ url_for('logout') }}"><div class="logout">Logout</div></a></li>
+					{% else %}
+					<li><a href="{{ url_for('login_get') }}"><div class="login">Login</div></a></li>
+					{% endif %}
+					</ul>
+				</div>
 			</div>
 		</div>
 		{% with messages = get_flashed_messages(with_categories = true) %}
