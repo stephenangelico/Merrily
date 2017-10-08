@@ -20,6 +20,7 @@
 		<th>Who</th>
 		<th>Notes</th>
 		<th>Answered?</th>
+		<th><!--Links--></th>
 	</tr>
 	{% for event in events %}
 	<tr>
@@ -28,6 +29,11 @@
 		<td>{{ event.entity }}</td>
 		<td>{{ event.notes }}</td>
 		<td>{{ event.answered | boolean_yesno() }}</td>
+		<td>
+		{% if current_user.is_authenticated %}
+		<a href="{{ url_for('edit_event_get', id=event.id) }}" id="title-{{ event.id }}">Edit</a>
+		{% endif %}
+		</td>
 	{% endfor %}
 </table>
 
