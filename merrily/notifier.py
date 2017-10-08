@@ -100,4 +100,4 @@ def login_post():
 @login_required
 def logout():
 	logout_user()
-	return redirect(url_for("events"))
+	return redirect(url_for("show_recent_events"))
