@@ -11,6 +11,8 @@ from flask import render_template, request, redirect, url_for, flash, Response
 from flask_login import login_user, login_required, current_user, logout_user
 from werkzeug.security import check_password_hash
 
+PAGINATE_BY = 10
+
 @app.template_filter()
 def timeformat(timestamp, format):
 	if not timestamp:
@@ -25,13 +27,41 @@ def boolean_yesno(boolean):
 		return "No"
 
 @app.route("/")
-def show_recent_events():
-	# Show ring events from the last 24 hours
-	events = session.query(RingEvent).filter(RingEvent.timestamp > (datetime.now() - timedelta(hours=24)))
+@app.route("/page/<int:page>")
+def show_recent_events(page=1):
+	# Zero-indexed page
+	page_index = page - 1
+	
+	try:
+		limit = int(request.args.get("limit", PAGINATE_BY))
+	except ValueError:
+		limit = PAGINATE_BY
+	if limit < 1 or limit > 100:
+		limit = PAGINATE_BY
+	
+	count = session.query(RingEvent).count()
+	
+	start = page_index * limit
+	end = start + limit
+	
+	total_pages = (count - 1) // limit + 1
+	has_next = page_index < total_pages - 1
+	has_prev = page_index > 0
+	has_paginator = True
+	
+	
+	events = session.query(RingEvent)
 	events = events.order_by(RingEvent.timestamp.desc())
+	events = events[start:end]
 	
 	return render_template("events.html",
 		events=events,
+		has_next=has_next,
+		has_paginator=has_paginator,
+		has_prev=has_prev,
+		page=page,
+		total_pages=total_pages,
+		limit=limit,
 		current_user=current_user,
 		)
 
