@@ -1,0 +1,15 @@
+[Unit]
+Description=Merrily Doorbell
+After=network.target
+
+[Service]
+Type=simple
+Envirnment=VIRTUAL_ENV='/home/stephen/Merrily/env' PATH="$VIRTUAL_ENV/bin:$PATH"
+User=stephen
+WorkingDirectory=/home/stephen/Merrily
+ExecStart=/usr/bin/python3 /home/stephen/Merrily/merrily/doorbell.py
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
