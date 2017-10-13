@@ -4,14 +4,16 @@ Named for the line in Gilbert and Sullivan's Princess Ida "Merrily ring the lunc
 
 When someone presses the doorbell, a notification should pop up on any connected clients.
 
-Client/server doorbell model:
-Server listens to peripheral doorbell, sends JSON (?) packet to connected clients.
-Clients may do any of: notify-send or system notification (inc Android), browser notification, browser flash, message in console
+This project arose out of a personal need to make the household doorbell more
+noticeable when no occupants are able to hear a normal ring.
+The reference design includes a Raspberry Pi connected via the GPIO pins to a
+charge-discharge circuit (details in merrily/doorbell.py), connected to the
+speaker leads on the doorbell. When a ring is detected, a HTTP POST request is
+sent to the server which sends notifactions as appropriate.
 
-Maybe include a way to label a ring event to find when a thing happened?
-Trigger may have to be written from scratch as well as server.
-Worst case, get new doorbell or create one (need outdoor-rated shell) that can be connected
+Installation
+============
 
-Version 1: RPi is client, server runs on "client" aka end user machine. Use notify-send.
+Tested on Ubuntu MATE 16.04 and 17.04 but should work on any system with
+Python 3.4+ and `notify-send`.
 
-Version 2: Add database log?
