@@ -77,7 +77,6 @@ def notify_doorbell():
 
 @app.route("/entry/<int:id>")
 def single_event(id=1):
-	#TODO: default to latest event instead of first one
 	events = session.query(RingEvent).get(id)
 	return render_template("events.html",
 		events=[events],
@@ -87,7 +86,6 @@ def single_event(id=1):
 @app.route("/entry/<int:id>/edit", methods=["GET"])
 @login_required
 def edit_event_get(id):
-	#TODO: add Edit (and delete) links in DOM
 	event = session.query(RingEvent).get(id)
 	return render_template("edit_event.html",
 		event=event,
@@ -105,8 +103,23 @@ def edit_event_post(id):
 	session.commit()
 	return redirect(url_for("single_event", id=id))
 
-#TODO: add function for deleting entries
-
+@app.route("/entry/<int:id>/delete", methods=["GET"])
+@login_required
+def remove_event_get(id):
+	event = session.query(RingEvent).get(id)
+	#TODO: handle event not found
+	return render_template("delete.html",
+		event=event
+	)
+	
+@app.route("/entry/<int:id>/delete", methods=["POST"])
+@login_required
+def remove_event_post(id):
+	event = session.query(RingEvent).get(id)
+	print("Starting deletion")
+	session.query(RingEvent).filter(RingEvent.id==id).delete()
+	session.commit()
+	return redirect(url_for("show_recent_events"))
 
 @app.route("/login", methods=["GET"])
 def login_get():

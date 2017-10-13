@@ -31,7 +31,9 @@
 		<td>{{ event.answered | boolean_yesno() }}</td>
 		<td>
 		{% if current_user.is_authenticated %}
-		<a href="{{ url_for('edit_event_get', id=event.id) }}" id="title-{{ event.id }}">Edit</a>
+		<a href="{{ url_for('edit_event_get', id=event.id) }}">Edit</a>
+		&nbsp;
+		<a href="{{ url_for('remove_event_get', id=event.id) }}">Delete</a>
 		{% endif %}
 		</td>
 	{% endfor %}
