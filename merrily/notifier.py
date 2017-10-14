@@ -75,27 +75,36 @@ def notify_doorbell():
 	session.commit()
 	return Response("Done", 200, mimetype="text/plain")
 
-@app.route("/entry/<int:id>")
+@app.route("/event/<int:id>")
 def single_event(id=1):
 	events = session.query(RingEvent).get(id)
+	if not events:
+		flash("Event not found", "warning")
+		return redirect(url_for("show_recent_events"))
 	return render_template("events.html",
 		events=[events],
 		current_user=current_user,
 	)
 	
-@app.route("/entry/<int:id>/edit", methods=["GET"])
+@app.route("/event/<int:id>/edit", methods=["GET"])
 @login_required
 def edit_event_get(id):
 	event = session.query(RingEvent).get(id)
+	if not event:
+		flash("Event not found", "warning")
+		return redirect(url_for("show_recent_events"))
 	return render_template("edit_event.html",
 		event=event,
 		current_user=current_user,
 	)
 
-@app.route("/entry/<int:id>/edit", methods=["POST"])
+@app.route("/event/<int:id>/edit", methods=["POST"])
 @login_required
 def edit_event_post(id):
 	event = session.query(RingEvent).get(id)
+	if not event:
+		flash("Event not found", "warning")
+		return redirect(url_for("show_recent_events"))
 	event.entity=request.form["entity"]
 	event.notes=request.form["notes"]
 	# Shorthand for if clause to check trueness of string
@@ -103,19 +112,24 @@ def edit_event_post(id):
 	session.commit()
 	return redirect(url_for("single_event", id=id))
 
-@app.route("/entry/<int:id>/delete", methods=["GET"])
+@app.route("/event/<int:id>/delete", methods=["GET"])
 @login_required
 def remove_event_get(id):
 	event = session.query(RingEvent).get(id)
-	#TODO: handle event not found
+	if not event:
+		flash("Event not found", "warning")
+		return redirect(url_for("show_recent_events"))
 	return render_template("delete.html",
 		event=event
 	)
 	
-@app.route("/entry/<int:id>/delete", methods=["POST"])
+@app.route("/event/<int:id>/delete", methods=["POST"])
 @login_required
 def remove_event_post(id):
 	event = session.query(RingEvent).get(id)
+	if not event:
+		flash("Event not found", "warning")
+		return redirect(url_for("show_recent_events"))
 	print("Starting deletion")
 	session.query(RingEvent).filter(RingEvent.id==id).delete()
 	session.commit()
