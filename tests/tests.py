@@ -2,6 +2,7 @@ import unittest
 import os
 #import json
 from urllib.parse import urlparse
+from werkzeug.security import generate_password_hash
 
 # Configure our app to use the testing database
 os.environ["CONFIG_PATH"] = "merrily.config.TestingConfig"
