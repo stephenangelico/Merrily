@@ -18,6 +18,12 @@ class TestAPI(unittest.TestCase):
 
 		# Set up the tables in the database
 		Base.metadata.create_all(engine)
+		
+		# Create an example user
+		self.user = User(name="Alice", email="alice@example.com",
+				password=generate_password_hash("test"))
+		session.add(self.user)
+		session.commit()
 	
 	def simulate_login(self):
 		with self.client.session_transaction() as http_session:
