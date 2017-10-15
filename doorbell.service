@@ -4,10 +4,10 @@ After=network.target
 
 [Service]
 Type=simple
-Envirnment=VIRTUAL_ENV='/home/stephen/Merrily/env' PATH="$VIRTUAL_ENV/bin:$PATH"
+Envirnment=VIRTUAL_ENV='/home/stephen/Merrily/env'
 User=stephen
 WorkingDirectory=/home/stephen/Merrily
-ExecStart=/usr/bin/python3 /home/stephen/Merrily/merrily/doorbell.py
+ExecStart=/home/stephen/Merrily/env/bin/python3 /home/stephen/Merrily/merrily/doorbell.py
 Restart=on-failure
 RestartSec=5
 
