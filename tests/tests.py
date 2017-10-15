@@ -10,7 +10,7 @@ os.environ["CONFIG_PATH"] = "merrily.config.TestingConfig"
 from merrily import app
 from merrily.database import Base, engine, session, RingEvent, User
 
-class TestAPI(unittest.TestCase):
+class ServerTests(unittest.TestCase):
 	""" Tests for Merrily web client """
 	
 	def setUp(self):
@@ -50,14 +50,16 @@ class TestAPI(unittest.TestCase):
 		
 		response = self.client.post("event/1/edit", data={
 		"entity": "Someone",
-		"notes": "Somewhere"
+		"notes": "Somewhere",
+		"answered": True
 		})
 		
 		self.assertEqual(response.status_code, 302)
-		self.assertEqual(urlparse(response.location).path, "/")
+		self.assertEqual(urlparse(response.location).path, "/event/1")
 		events = session.query(RingEvent).all()
 		self.assertEqual(len(events), 1)
 		
 		event = events[0]
 		self.assertEqual(event.entity, "Someone")
 		self.assertEqual(event.notes, "Somewhere")
+		self.assertEqual(event.answered, True)
