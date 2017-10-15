@@ -48,10 +48,10 @@ class ServerTests(unittest.TestCase):
 		self.test_add_event()
 		self.simulate_login()
 		
-		response = self.client.post("event/1/edit", data={
-		"entity": "Someone",
-		"notes": "Somewhere",
-		"answered": True
+		response = self.client.post("/event/1/edit", data={
+			"entity": "Someone",
+			"notes": "Somewhere",
+			"answered": "true",
 		})
 		
 		self.assertEqual(response.status_code, 302)
