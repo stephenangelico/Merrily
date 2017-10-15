@@ -33,7 +33,6 @@ source env/bin/activate
 Install dependencies:
 ```
 pip install -r requirements.txt
-pipenv install requests # pipenv installed by pip
 ```
 
 Create database:
