@@ -1,6 +1,6 @@
 Flask
 flask-login
 RPi.GPIO
-pipenv
+requests
 sqlalchemy
 psycopg2
