@@ -108,7 +108,7 @@ def edit_event_post(id):
 	event.entity=request.form["entity"]
 	event.notes=request.form["notes"]
 	# Shorthand for if clause to check trueness of string
-	event.answered=(request.form["answered"] == "true")
+	event.answered = (request.form["answered"] == "true")
 	session.commit()
 	return redirect(url_for("single_event", id=id))
 
