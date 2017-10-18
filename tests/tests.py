@@ -63,3 +63,52 @@ class ServerTests(unittest.TestCase):
 		self.assertEqual(event.entity, "Someone")
 		self.assertEqual(event.notes, "Somewhere")
 		self.assertEqual(event.answered, True)
+	
+	def test_empty_field(self):
+		self.test_add_event()
+		self.simulate_login()
+		
+		response = self.client.post("/event/1/edit", data={
+			"entity": "",
+			"notes": "Somewhere",
+			"answered": "true",
+		})
+		
+		self.assertEqual(response.status_code, 302)
+		self.assertEqual(urlparse(response.location).path, "/event/1")
+		events = session.query(RingEvent).all()
+		self.assertEqual(len(events), 1)
+		
+		event = events[0]
+		self.assertEqual(event.entity, "")
+	
+	def test_long_values(self):
+		self.test_add_event()
+		self.simulate_login()
+		
+		response = self.client.post("/event/1/edit", data={
+			"entity": "Someone "*17,
+			"notes": "Somewher"*129,
+			"answered": "true",
+		})
+		
+		self.assertEqual(response.status_code, 302)
+		self.assertEqual(urlparse(response.location).path, "/event/1")
+		events = session.query(RingEvent).all()
+		self.assertEqual(len(events), 1)
+		
+		event = events[0]
+		self.assertEqual(event.entity, ("Someone "*17)[:127])
+		self.assertEqual(event.notes, ("Somewher"*129)[:1023])
+		self.assertEqual(event.answered, True)
+	
+	def test_delete_event(self):
+		self.test_add_event()
+		self.simulate_login()
+		
+		response = self.client.post("/event/1/delete")
+		
+		self.assertEqual(response.status_code, 302)
+		self.assertEqual(urlparse(response.location).path, "/")
+		events = session.query(RingEvent).all()
+		self.assertEqual(len(events), 0)

@@ -105,8 +105,12 @@ def edit_event_post(id):
 	if not event:
 		flash("Event not found", "warning")
 		return redirect(url_for("show_recent_events"))
-	event.entity=request.form["entity"]
-	event.notes=request.form["notes"]
+	checkentity = request.form["entity"]
+	checkentity = checkentity[:127]
+	checknotes = request.form["notes"]
+	checknotes = checknotes[:1023]
+	event.entity=checkentity
+	event.notes=checknotes
 	# Shorthand for if clause to check trueness of string
 	event.answered = (request.form["answered"] == "true")
 	session.commit()

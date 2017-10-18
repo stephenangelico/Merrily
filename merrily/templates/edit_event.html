@@ -14,8 +14,8 @@
 			<tr>
 				<td>{{ event.id }}</td>
 				<td>{{ event.timestamp | timeformat("%d/%m/%y %r") }}</td>
-				<td><input type="text" class="form-control" id="entity" name="entity" placeholder="Entity" required value="{{ event.entity }}" /></td>
-				<td><input type="text" class="form-control" id="notes" name="notes" placeholder="Notes" required value="{{ event.notes }}" /></td>
+				<td><input type="text" class="form-control" id="entity" name="entity" placeholder="Entity" value="{{ event.entity }}" /></td>
+				<td><input type="text" class="form-control" id="notes" name="notes" placeholder="Notes" value="{{ event.notes }}" /></td>
 				<td><select name="answered">
 					{% if event.answered %}
 					<option value="true" selected>Yes</option>
