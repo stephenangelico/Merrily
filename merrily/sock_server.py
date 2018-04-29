@@ -1,5 +1,4 @@
 import socket
-import threading
 import sys
 
 HOST = ''
@@ -35,9 +34,6 @@ def run_server():
 		with sock:
 			while True:
 				conn, addr = sock.accept()
-				connthread = threading.Thread(target=handler, args=(conn, addr))
-				connthread.daemon = True
-				connthread.start()
 				connections.append(conn)
 				print('Connected to: ' + str(addr[0]) + ':' + str(addr[1]))
 	finally:

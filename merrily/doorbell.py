@@ -36,8 +36,11 @@
 # include RPi libraries in to Python code
 import RPi.GPIO as GPIO
 import time
-import requests
 from statistics import mean
+
+# Import stuff for triggering the doorbell
+import threading
+from merrily import sock_server
 
 # instantiate GPIO as an object
 GPIO.setmode(GPIO.BCM)
@@ -124,8 +127,9 @@ def test_ring():
 
 # Sends request to server then timeout for 5 sec to wait for sound to decay
 def bell_ring():
-	requests.post('http://f-22raptor:8088/ring')
+	sock_server.send_to_all(b'Doorbell!')
 	time.sleep(5)
 
 if __name__ == '__main__':
+	threading.Thread(target=sock_server.run_server).start
 	ring_listen()
