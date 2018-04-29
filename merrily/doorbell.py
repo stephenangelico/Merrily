@@ -141,5 +141,5 @@ def bell_ring():
 	time.sleep(5)
 
 if __name__ == '__main__':
-	threading.Thread(target=notifier.run_server).start()
+	threading.Thread(target=notifier.accept_conn).start()
 	ring_listen()
