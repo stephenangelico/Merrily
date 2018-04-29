@@ -40,7 +40,7 @@ from statistics import mean
 
 # Import stuff for triggering the doorbell
 import threading
-from merrily import sock_server
+from . import sock_server
 
 # instantiate GPIO as an object
 GPIO.setmode(GPIO.BCM)
