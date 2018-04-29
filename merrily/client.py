@@ -17,7 +17,7 @@ def wait_for_doorbell():
 				break
 			message = data.decode()
 			# Use shell to run notify-send if it's a normal doorbell
-			if message == b'Doorbell!':
+			if message == 'Doorbell!':
 				call(["notify-send", "Doorbell!", "Someone's knocking at the door!"])
 			else:
 				print(message)
