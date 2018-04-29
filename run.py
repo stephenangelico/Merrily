@@ -2,7 +2,7 @@ import os
 from merrily import app
 
 def run():
-    port = int(os.environ.get('PORT', 8088))
+    port = int(os.environ.get('PORT', 8089))
     app.run(host='0.0.0.0', port=port)
 
 def adduser():
