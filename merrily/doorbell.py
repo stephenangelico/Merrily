@@ -131,5 +131,5 @@ def bell_ring():
 	time.sleep(5)
 
 if __name__ == '__main__':
-	threading.Thread(target=sock_server.run_server).start
+	threading.Thread(target=sock_server.run_server).start()
 	ring_listen()

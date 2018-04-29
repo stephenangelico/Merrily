@@ -3,7 +3,7 @@ import socket
 import threading
 from select import select
 
-HOST = 'localhost'
+HOST = 'f-18hornet'
 PORT = 12345
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
