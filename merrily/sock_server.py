@@ -2,7 +2,7 @@ import socket
 import sys
 
 HOST = ''
-PORT = 12345
+PORT = 8088
 connections = []
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -22,24 +22,21 @@ def send_to_all(data):
 def handler(conn, addr):
 	with conn:
 		while True:
-			data = conn.recv(1024)
-			send_to_all(data)
 			if not data:
 				print('Disconnecting: ' + str(addr[0]) + ':' + str(addr[1]))
 				break
 	connections.remove(conn)
 
-def run_server():
+def accept_conn():
 	try:
 		with sock:
 			while True:
 				conn, addr = sock.accept()
 				connections.append(conn)
-				print('Connected to: ' + str(addr[0]) + ':' + str(addr[1]))
+				print('Connecting: ' + str(addr[0]) + ':' + str(addr[1]))
 	finally:
 		for connection in connections:
-			print(connection)
 			connection.close()
 
 if __name__ == '__main__':
-	run_server()
+	accept_conn()
