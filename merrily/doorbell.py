@@ -134,7 +134,7 @@ def bell_ring():
 	# the database from here. I'll just reinstate the web server method.
 	try:
 		requests.post('http://localhost:8089/ring')
-	except ConnectionError:
+	except requests.exceptions.ConnectionError:
 		# The log server is down. So what, it's optional.
 		print("Can't reach log server, event not logged")
 	# Avoid spamming messages in case of button (or user) fault
