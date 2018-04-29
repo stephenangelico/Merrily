@@ -40,7 +40,7 @@ from statistics import mean
 
 # Import stuff for triggering the doorbell
 import threading
-import sock_server
+import notifier
 from .database import session, RingEvent
 
 # instantiate GPIO as an object
@@ -128,7 +128,7 @@ def test_ring():
 
 # Send message to all connected clients (client decides notification method)
 def bell_ring():
-	sock_server.send_to_all(b'Doorbell!')
+	notifier.send_to_all(b'Doorbell!')
 	# Add event to database
 	ring = RingEvent() #Needs no data
 	session.add(ring)
