@@ -41,7 +41,7 @@ from statistics import mean
 # Import stuff for triggering the doorbell
 import threading
 import notifier
-from .database import session, RingEvent
+from database import session, RingEvent
 
 # instantiate GPIO as an object
 GPIO.setmode(GPIO.BCM)
