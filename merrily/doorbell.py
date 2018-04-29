@@ -41,6 +41,7 @@ from statistics import mean
 # Import stuff for triggering the doorbell
 import threading
 import sock_server
+from .database import session, RingEvent
 
 # instantiate GPIO as an object
 GPIO.setmode(GPIO.BCM)
@@ -125,9 +126,14 @@ def test_ring():
 		if level < 100:
 			print("Doorbell!")
 
-# Sends request to server then timeout for 5 sec to wait for sound to decay
+# Send message to all connected clients (client decides notification method)
 def bell_ring():
 	sock_server.send_to_all(b'Doorbell!')
+	# Add event to database
+	ring = RingEvent() #Needs no data
+	session.add(ring)
+	session.commit()
+	# Avoid spamming messages in case of button (or user) fault
 	time.sleep(5)
 
 if __name__ == '__main__':
