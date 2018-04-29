@@ -41,7 +41,7 @@ from statistics import mean
 # Import stuff for triggering the doorbell
 import threading
 import notifier
-from database import session, RingEvent
+import requests
 
 # instantiate GPIO as an object
 GPIO.setmode(GPIO.BCM)
@@ -130,12 +130,16 @@ def test_ring():
 def bell_ring():
 	notifier.send_to_all(b'Doorbell!')
 	# Add event to database
-	ring = RingEvent() #Needs no data
-	session.add(ring)
-	session.commit()
+	# Screw it, I can't be bothered dealing with the rigmarole of accessing
+	# the database from here. I'll just reinstate the web server method.
+	try:
+		requests.post('http://localhost:8089/ring')
+	except ConnectionError:
+		# The log server is down. So what, it's optional.
+		print("Can't reach log server, event not logged")
 	# Avoid spamming messages in case of button (or user) fault
 	time.sleep(5)
 
 if __name__ == '__main__':
-	threading.Thread(target=sock_server.run_server).start()
+	threading.Thread(target=notifier.run_server).start()
 	ring_listen()

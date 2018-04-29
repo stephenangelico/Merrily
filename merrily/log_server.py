@@ -61,6 +61,14 @@ def show_recent_events(page=1):
 		current_user=current_user,
 		)
 
+@app.route("/ring", methods=["POST"])
+def notify_doorbell():
+	# Add event to database
+	ring = RingEvent() #Needs no data
+	session.add(ring)
+	session.commit()
+	return Response("Done", 200, mimetype="text/plain")
+
 @app.route("/event/<int:id>")
 def single_event(id=1):
 	events = session.query(RingEvent).get(id)
