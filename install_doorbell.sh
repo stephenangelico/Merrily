@@ -8,7 +8,7 @@ After=network.target
 [Service]
 Type=simple
 Envirnment=VIRTUAL_ENV='/home/stephen/Merrily/env'
-User=stephen
+User=`stat -c %u $0`
 WorkingDirectory=/home/stephen/Merrily
 ExecStart=/home/stephen/Merrily/env/bin/python3 /home/stephen/Merrily/merrily/doorbell.py
 Restart=on-failure
@@ -23,6 +23,10 @@ systemctl --system daemon-reload
 	systemctl start doorbell.service
 }
 
+if [[ `id -u` -ne 0 ]] ; then
+	echo "This installer must be run as root."
+	exit 1
+fi
 read -p "This will install doorbell.py as a system service. Continue? [y/n] " -r
 echo # Create newline
 if [[ $REPLY =~ ^[Yy] ]] ; then
@@ -30,4 +34,3 @@ if [[ $REPLY =~ ^[Yy] ]] ; then
 else
 	echo "Aborted."
 fi
-exit 0
