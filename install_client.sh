@@ -7,7 +7,7 @@ After=network.target
 
 [Service]
 Type=simple
-Envirnment=VIRTUAL_ENV='/home/stephen/Merrily/env'
+Envirnment=VIRTUAL_ENV='/home/stephen/Merrily/env' DBUS_SESSION_BUS_ADDRESS=$DBUS_SESSION_BUS_ADDRESS
 User=`stat -c %u $0`
 WorkingDirectory=/home/stephen/Merrily
 ExecStart=/home/stephen/Merrily/env/bin/python3 /home/stephen/Merrily/merrily/client.py
