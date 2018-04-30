@@ -57,7 +57,12 @@ Create a user for web interface:
 >>> run.adduser() # Follow the prompts then exit interpreter
 ```
 
-Adjust `config.py` to your own needs.
+Adjust `config.py` to your own needs. You probably also want to tell Git not to
+look for changes to `config.py` as well:
+
+```
+git update-index --assume-unchanged merrily/config.py
+```
 
 Connecting to your doorbell
 ===========================
