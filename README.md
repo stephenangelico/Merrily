@@ -40,6 +40,8 @@ Install dependencies:
 pip install -r requirements.txt
 ```
 
+If you just want to run the client, scroll right down to [Running](#running).
+
 Log server setup (optional)
 ===========================
 
@@ -127,13 +129,21 @@ Running
 Run all commands in the virtual environment.
 
 Main doorbell daemon:
+
 ```python merrily/doorbell.py```
 
 Web logging server:
+
 ```python run.py```
 
 Client to receive notifications:
+
 ```python merrily/client.py```
+
 Make sure to specify the correct host to connect to.
 
-TODO: Document and cleanup use of SystemD service file
+There are also SystemD service installers for `doorbell.py` and `client.py`:
+
+```sudo ./install_doorbell.sh # RPi side```
+
+```sudo ./install_client.sh # Client side```
