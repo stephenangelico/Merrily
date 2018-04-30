@@ -17,7 +17,15 @@ print("Server active on port", PORT)
 
 def send_to_all(data):
 	for connection in connections:
-		connection.send(bytes(data))
+		try:
+			connection.send(bytes(data))
+		except BrokenPipeError:
+			# If the client loses its connection, it should restart.
+			# The SystemD service file should restart the script if
+			# it exited with an error anyway. Therefore, if the pipe
+			# is broken, just close the connection cleanly.
+			connection.close()
+			connections.remove(connection)
 
 def handler(conn, addr):
 	with conn:
