@@ -24,19 +24,19 @@ Python 3.4+ (with venv and pip) and `notify-send`.
 Install those from your package manager if they are not installed already.
 
 Clone or download:
-```
+```bash
 git clone https://github.com/stephenangelico/Merrily.git
 cd Merrily
 ```
 
 Create virtual environment (recommended):
-```
+```bash
 python3 -m venv env
 source env/bin/activate
 ```
 
 Install dependencies:
-```
+```bash
 pip install -r requirements.txt
 ```
 
@@ -49,7 +49,7 @@ The log server requires a configured PostgreSQL server. Run these commands from
 the installation directory or virtual environment.
 
 Create database:
-```
+```bash
 createdb merrily
 ```
 
@@ -62,7 +62,7 @@ Create a user for web interface:
 Adjust `config.py` to your own needs. You probably also want to tell Git not to
 look for changes to `config.py` as well:
 
-```
+```bash
 git update-index --assume-unchanged merrily/config.py
 ```
 
@@ -85,7 +85,7 @@ Next you need to establish your threshold for what represents a ringing signal.
 Normally, it runs as a daemon and not interactively, so run it in an interactive
 Python session (from the virtual environment):
 
-```
+```bash
 python -i merrily/doorbell.py
 ```
 
@@ -130,20 +130,30 @@ Run all commands in the virtual environment.
 
 Main doorbell daemon:
 
-```python merrily/doorbell.py```
+```bash
+python merrily/doorbell.py
+```
 
 Web logging server:
 
-```python run.py```
+```bash
+python run.py
+```
 
 Client to receive notifications:
 
-```python merrily/client.py```
+```bash
+python merrily/client.py
+```
 
 Make sure to specify the correct host to connect to.
 
 There are also SystemD service installers for `doorbell.py` and `client.py`:
 
-```sudo ./install_doorbell.sh # RPi side```
+```bash
+sudo ./install_doorbell.sh # RPi side
+```
 
-```sudo ./install_client.sh # Client side```
+```bash
+sudo ./install_client.sh # Client side
+```
