@@ -7,7 +7,7 @@ After=network.target
 
 [Service]
 Type=simple
-Envirnment=VIRTUAL_ENV='`pwd`/env' DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/`stat -c %u $0`/bus
+Environment=VIRTUAL_ENV='`pwd`/env' DISPLAY=:0
 User=`stat -c %u $0`
 WorkingDirectory=`pwd`
 ExecStart=`pwd`/env/bin/python3 `pwd`/merrily/client.py
