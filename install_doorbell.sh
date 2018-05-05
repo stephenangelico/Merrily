@@ -11,7 +11,7 @@ Environment=VIRTUAL_ENV='`pwd`/env'
 User=`echo $SUDO_USER`
 WorkingDirectory=`pwd`
 ExecStart=`pwd`/env/bin/python3 `pwd`/merrily/doorbell.py
-Restart=on-failure
+Restart=always
 RestartSec=5
 
 [Install]
