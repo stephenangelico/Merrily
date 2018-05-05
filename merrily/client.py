@@ -1,7 +1,7 @@
 import sys
 import socket
 import threading
-from subprocess import call
+from subprocess import check_call
 
 HOST = 'f-18hornet'
 PORT = 8088
@@ -18,8 +18,8 @@ def wait_for_doorbell():
 			message = data.decode()
 			# Use shell to run notify-send if it's a normal doorbell
 			if message == 'Doorbell!':
-				call(["notify-send", "Doorbell!", "Someone's knocking at the door!"])
-				call(["aplay", "merrily/ring.wav"])
+				check_call(["notify-send", "Doorbell!", "Someone's knocking at the door!"])
+				check_call(["cvlc", "merrily/ring.wav", "--play-and-exit"]) # Throw an error if not available
 			else:
 				print(message)
 

@@ -20,7 +20,8 @@ Installation
 ============
 
 Tested on Ubuntu MATE 16.04 and up, but should work on any system with
-Python 3.4+ (with venv and pip) and `notify-send`.
+Python 3.4+ (with venv and pip) and `notify-send`. VLC is also used to play
+the alert tone, but can be substituted with any media player.
 Install those from your package manager if they are not installed already.
 
 Clone or download:
@@ -146,7 +147,8 @@ Client to receive notifications:
 python merrily/client.py
 ```
 
-Make sure to specify the correct host to connect to.
+Make sure to specify the correct host to connect to. Also check that the media
+player command is correct, or comment out the `check_call()` line with a `#`.
 
 There are also SystemD service installers for `doorbell.py` and `client.py`:
 
