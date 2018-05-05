@@ -19,6 +19,7 @@ def wait_for_doorbell():
 			# Use shell to run notify-send if it's a normal doorbell
 			if message == 'Doorbell!':
 				call(["notify-send", "Doorbell!", "Someone's knocking at the door!"])
+				call(["aplay", "merrily/ring.wav"])
 			else:
 				print(message)
 
