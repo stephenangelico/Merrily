@@ -8,7 +8,7 @@ After=network.target
 [Service]
 Type=simple
 Environment=VIRTUAL_ENV='`pwd`/env' DISPLAY=:0
-User=`stat -c %u $0`
+User=`echo $SUDO_USER`
 WorkingDirectory=`pwd`
 ExecStart=`pwd`/env/bin/python3 `pwd`/merrily/client.py
 Restart=on-failure

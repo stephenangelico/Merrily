@@ -8,9 +8,9 @@ After=network.target
 [Service]
 Type=simple
 Environment=VIRTUAL_ENV='`pwd`/env'
-User=`stat -c %u $0`
-WorkingDirectory=/home/stephen/Merrily
-ExecStart=/home/stephen/Merrily/env/bin/python3 /home/stephen/Merrily/merrily/doorbell.py
+User=`echo $SUDO_USER`
+WorkingDirectory=`pwd`
+ExecStart=`pwd`/env/bin/python3 `pwd`/merrily/doorbell.py
 Restart=on-failure
 RestartSec=5
 
