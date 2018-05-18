@@ -130,16 +130,17 @@ def test_ring():
 def bell_ring():
 	notifier.send_to_all(b'Doorbell!')
 	# Add event to database
-	# Screw it, I can't be bothered dealing with the rigmarole of accessing
-	# the database from here. I'll just reinstate the web server method.
 	try:
 		requests.post('http://localhost:8089/ring')
 	except requests.exceptions.ConnectionError:
-		# The log server is down. So what, it's optional.
+		# The log server is down. That's fine; it's optional.
 		print("Can't reach log server, event not logged")
 	# Avoid spamming messages in case of button (or user) fault
 	time.sleep(5)
 
 if __name__ == '__main__':
-	threading.Thread(target=notifier.accept_conn).start()
-	ring_listen()
+	if len(sys.argv) > 1 and sys.argv[1] == 'testring':
+		test_ring()
+	else:
+		threading.Thread(target=notifier.accept_conn).start()
+		ring_listen()
