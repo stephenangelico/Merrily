@@ -28,7 +28,6 @@ if [[ `id -u` -ne 0 ]] ; then
 	exit 1
 fi
 read -p "This will install doorbell.py as a system service. Continue? [y/n] " -r
-echo # Create newline
 if [[ $REPLY =~ ^[Yy] ]] ; then
 	instl
 else
