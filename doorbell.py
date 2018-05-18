@@ -36,6 +36,7 @@
 # include RPi libraries in to Python code
 import RPi.GPIO as GPIO
 import time
+import sys
 from statistics import mean
 
 # Import stuff for triggering the doorbell
