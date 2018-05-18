@@ -24,7 +24,7 @@ systemctl --system daemon-reload
 }
 
 if [[ `id -u` -ne 0 ]] ; then
-	echo "This installer must be run as root."
+	echo "This installer must be run using sudo."
 	exit 1
 fi
 read -p "This will install client.py as a system service. Continue? [y/n] " -r
