@@ -9,9 +9,9 @@ noticeable when no occupants are able to hear a normal ring.
 The reference design includes a Raspberry Pi 3 Model B connected via the GPIO
 pins to a charge-discharge circuit (details in merrily/doorbell.py), which in
 turn is connected to the speaker leads on the doorbell. When a ring is detected,
-any clients connected on port 8088 will be sent the string "Doorbell!". The
-included `client.py` will listen for that string and send a desktop notification
-using `notify-send`.
+any connected clients will be sent the string "Doorbell!". The included
+`client.py` will listen for that string and send a desktop notification using
+`notify-send`.
 
 Also included is an optional web-based logging system built with Flask and
 PostgreSQL, however, this requires more setup than the main notifier.
@@ -41,6 +41,8 @@ Install dependencies:
 pip install -r requirements.txt
 ```
 
+Copy `config_example.py` to `config.py` and modify it as necessary.
+
 If you just want to run the client, scroll right down to [Running](#running).
 
 Log server setup (optional)
@@ -54,18 +56,18 @@ Create database:
 createdb merrily
 ```
 
-Create a user for web interface:
-```python
->>> import run
->>> run.adduser() # Follow the prompts then exit interpreter
-```
-
-Adjust `config.py` to your own needs. You probably also want to tell Git not to
-look for changes to `config.py` as well:
-
+If for whatever reason you want to run the unit tests as well:
 ```bash
-git update-index --assume-unchanged merrily/config.py
+createdb merrily-test
 ```
+Note that the tests require that the database be empty to begin with.
+
+Create a user for web interface:
+```bash
+python log_server.py adduser
+```
+
+Modify `config.py` with your database credentials.
 
 Connecting to your doorbell
 ===========================
@@ -78,29 +80,15 @@ You don't need to follow it to the letter, but check a pinout diagram (such as
 (green in the suggested diagram) and one ground (black in the same diagram).
 Take note of which **GPIO** pins you are connecting to. This is not the same
 as the geographical pin number. For instance, geographical pin 12 represents
-GPIO pin 18. Replace the values for `a_pin` and `b_pin` in `doorbell.py` with
+GPIO pin 18. Replace the values for `A_PIN` and `B_PIN` in `config.py` with
 those you took note of.
 
 Next you need to establish your threshold for what represents a ringing signal.
 `doorbell.py` has some functions to help you figure out the level you need.
-Normally, it runs as a daemon and not interactively, so run it in an interactive
-Python session (from the virtual environment):
+Run it with the `testring` argument (from the virtual environment):
 
 ```bash
-python -i merrily/doorbell.py
-```
-
-Then press Control-C to send a `KeyboardInterrupt` and get an interactive
-interpreter.
-
-TODO: fix up imports, relative and absolute, such that this is again a simple
-import into the interpreter.
-
-Once you have the Python prompt `>>>`, you can call one of the test
-functions:
-
-```python
->>> test_ring()
+python doorbell.py testring
 120
 120.9
 120.65
@@ -121,8 +109,8 @@ line may cause the charge time to become high or low. Check that the operator
 is correct for this situation. So if a ring causes the level to drop, a ring
 event should trigger if the level becomes less than (<) a particular value.
 
-Once you have settled on a value, copy it to the main function, `ring_listen()`,
-and the hardware should be good to go.
+Once you have settled on a value, set it as `THRESHOLD` in `config.py`, and the
+hardware should be good to go.
 
 Running
 =======
@@ -132,25 +120,26 @@ Run all commands in the virtual environment.
 Main doorbell daemon:
 
 ```bash
-python merrily/doorbell.py
-```
-
-Web logging server:
-
-```bash
-python run.py
+python doorbell.py
 ```
 
 Client to receive notifications:
 
 ```bash
-python merrily/client.py
+python client.py
 ```
 
-Make sure to specify the correct host to connect to. Also check that the media
-player command is correct, or comment out the `check_call()` line with a `#`.
+Make sure to specify the correct host to connect to in `config.py`. Also check
+that the media player command is correct, or comment out the `check_call()` line
+in `client.py` with a `#`.
 
-There are also SystemD service installers for `doorbell.py` and `client.py`:
+Web logging server:
+
+```bash
+python log_server.py
+```
+
+There are also SystemD service installers:
 
 ```bash
 sudo ./install_doorbell.sh # RPi side
@@ -158,4 +147,8 @@ sudo ./install_doorbell.sh # RPi side
 
 ```bash
 sudo ./install_client.sh # Client side
+```
+
+```bash
+sudo ./install_log_server.sh # Web log
 ```
