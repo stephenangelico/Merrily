@@ -8,7 +8,7 @@ After=network.target
 [Service]
 Type=simple
 Environment=VIRTUAL_ENV='`pwd`/env' DISPLAY=:0
-User=`echo $SUDO_USER`
+User=$SUDO_USER
 WorkingDirectory=`pwd`
 ExecStart=`pwd`/env/bin/python3 `pwd`/client.py
 Restart=always
