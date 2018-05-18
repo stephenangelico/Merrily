@@ -10,7 +10,7 @@ Type=simple
 Environment=VIRTUAL_ENV='`pwd`/env'
 User=`echo $SUDO_USER`
 WorkingDirectory=`pwd`
-ExecStart=`pwd`/env/bin/python3 `pwd`/merrily/doorbell.py
+ExecStart=`pwd`/env/bin/python3 `pwd`/doorbell.py
 Restart=always
 RestartSec=5
 

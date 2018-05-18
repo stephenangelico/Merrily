@@ -1,14 +1,12 @@
 import unittest
 import os
-#import json
 from urllib.parse import urlparse
 from werkzeug.security import generate_password_hash
 
 # Configure our app to use the testing database
-os.environ["CONFIG_PATH"] = "merrily.config.TestingConfig"
+os.environ["CONFIG_PATH"] = "config.TestingConfig"
 
-from merrily import app
-from merrily.database import Base, engine, session, RingEvent, User
+from log_server import app, Base, engine, session, RingEvent, User
 
 class ServerTests(unittest.TestCase):
 	""" Tests for Merrily web client """
@@ -112,3 +110,6 @@ class ServerTests(unittest.TestCase):
 		self.assertEqual(urlparse(response.location).path, "/")
 		events = session.query(RingEvent).all()
 		self.assertEqual(len(events), 0)
+
+if __name__ == "__main__":
+	unittest.main()

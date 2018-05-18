@@ -1,14 +1,66 @@
-# Web server to run on system to be notified
-from .database import session, RingEvent, User
-from merrily import app
+# Web server to run in parallel to doorbell machine
+# Can run on completely separate machine if desired
 
+# Standard library stuff
+import os
+import sys
 from datetime import datetime, timedelta
-from flask import render_template, request, redirect, url_for, flash, Response
-from flask_login import login_user, login_required, current_user, logout_user
+# Flask web server
+from flask import Flask, render_template, request, redirect, url_for, flash, Response
+from flask_login import LoginManager, login_user, login_required, current_user, logout_user, UserMixin
 from werkzeug.security import check_password_hash
+# DB backend
+from sqlalchemy import create_engine, Column, String, Integer, DateTime, Boolean
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
+# Local config
+import config
 
+# App init
+app = Flask(__name__)
+config_path = os.environ.get("CONFIG_PATH", "config.DevelopmentConfig")
+app.config.from_object(config_path)
+
+# DB init
+engine = create_engine(app.config["DATABASE_URI"])
+Base = declarative_base()
+Session = sessionmaker(bind=engine)
+session = Session()
+
+class RingEvent(Base):
+	__tablename__ = "ringevents"
+	
+	id = Column(Integer, primary_key=True)
+	timestamp = Column(DateTime, default=datetime.now)
+	entity = Column(String(128))
+	notes = Column(String(1024))
+	answered = Column(Boolean, default=False)
+
+class User(Base, UserMixin):
+	__tablename__ = "users"
+	
+	id = Column(Integer, primary_key=True)
+	name = Column(String(128))
+	email = Column(String(128), unique=True)
+	password = Column(String(128))
+
+Base.metadata.create_all(engine)
+
+# Global for web display
 PAGINATE_BY = 10
 
+# Login handler
+login_manager = LoginManager()
+login_manager.init_app(app)
+
+login_manager.login_view = "login_get"
+login_manager.login_message_category = "danger"
+
+@login_manager.user_loader
+def load_user(id):
+    return session.query(User).get(int(id))
+
+# Display filters
 @app.template_filter()
 def timeformat(timestamp, format):
 	if not timestamp:
@@ -22,6 +74,7 @@ def boolean_yesno(boolean):
 	else:
 		return "No"
 
+# Web endpoints
 @app.route("/")
 @app.route("/page/<int:page>")
 def show_recent_events(page=1):
@@ -156,3 +209,32 @@ def login_post():
 def logout():
 	logout_user()
 	return redirect(url_for("show_recent_events"))
+
+# Execution functions
+def run():
+    port = int(os.environ.get('PORT', 8089))
+    app.run(host='0.0.0.0', port=port)
+
+def adduser():
+	from getpass import getpass
+	from werkzeug.security import generate_password_hash
+	name = input("Name: ")
+	email = input("Email: ")
+	if session.query(User).filter_by(email=email).first():
+		print("User with that email address already exists")
+		return
+	
+	password = ""
+	while len(password) < 8 or password != password_2:
+		password = getpass("Password: ")
+		password_2 = getpass("Re-enter password: ")
+	user = User(name=name, email=email,
+			password=generate_password_hash(password))
+	session.add(user)
+	session.commit()
+
+if __name__ == '__main__':
+	#if sys.argv[1] == 'adduser':
+		#adduser()
+	#else:
+	run()
