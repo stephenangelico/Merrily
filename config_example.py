@@ -1,3 +1,8 @@
+# This is an example of what should be in config.py. Save this file as config.py
+# and then change the defaults as needed. See README.md for details.
+# Not all the various classes for the web server aren't necessary as long as the
+# one it's using is present. TestingConfig is needed to run the unit tests.
+
 import os
 
 # Web server config
