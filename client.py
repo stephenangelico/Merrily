@@ -2,12 +2,13 @@ import sys
 import socket
 import threading
 from subprocess import check_call
+from config import DOORBELL_SERVER, DOORBELL_PORT, PLAYER, PLAYER_ARGS, ALERT_FILE # ImportError? See config_example.py
 
-HOST = 'f-18hornet'
-PORT = 8088
+host = DOORBELL_SERVER
+port = DOORBELL_PORT
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-sock.connect((HOST,PORT))
+sock.connect((host,port))
 
 def wait_for_doorbell():
 	with sock:
@@ -19,7 +20,7 @@ def wait_for_doorbell():
 			# Use shell to run notify-send if it's a normal doorbell
 			if message == 'Doorbell!':
 				check_call(["notify-send", "Doorbell!", "Someone's knocking at the door!"])
-				check_call(["cvlc", "merrily/ring.wav", "--play-and-exit"]) # Throw an error if not available
+				check_call([PLAYER, ALERT_FILE, PLAYER_ARGS]) # Throw an error if not available
 			else:
 				print(message)
 

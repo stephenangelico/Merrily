@@ -1,19 +1,20 @@
 import socket
 import sys
+from config import DOORBELL_PORT # ImportError? See config_example.py
 
-HOST = ''
-PORT = 8088
+host = ''
+port = DOORBELL_PORT
 connections = []
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 try:
-	sock.bind((HOST,PORT))
+	sock.bind((host,port))
 except socket.error as e:
 	print(str(e))
 	sys.exit()
 
 sock.listen(5)
-print("Server active on port", PORT)
+print("Server active on port", port)
 
 def send_to_all(data):
 	for connection in connections:

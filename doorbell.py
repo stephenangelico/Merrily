@@ -38,6 +38,7 @@ import RPi.GPIO as GPIO
 import time
 import sys
 from statistics import mean
+from config import A_PIN, B_PIN, THRESHOLD, LOG_URL # ImportError? See config_example.py
 
 # Import stuff for triggering the doorbell
 import threading
@@ -48,8 +49,8 @@ import requests
 GPIO.setmode(GPIO.BCM)
 
 # define GPIO pins with variables a_pin and b_pin
-a_pin = 18
-b_pin = 23
+a_pin = A_PIN
+b_pin = B_PIN
 
 # create discharge function for reading capacitor data
 def discharge():
@@ -87,7 +88,7 @@ def ring_listen():
 			levels.append(analog_read())
 			time.sleep(0.025)
 		level = mean(levels)
-		if level < 100:
+		if level < THRESHOLD:
 			bell_ring()
 
 # debugging function co-written by Chris Angelico
@@ -99,7 +100,7 @@ def test_listen():
 	wenthigh = 0
 	while "not halted":
 		level = analog_read(); t = time.time()
-		if level < 100:
+		if level < THRESHOLD:
 			if state == "idle":
 				print("%17.6f Raised  %d, was %d %.6f \33[K" %(t, level, low, t - wentlow))
 				state = "active"
@@ -124,7 +125,7 @@ def test_ring():
 			time.sleep(0.025)
 		level = mean(levels)
 		print(level)
-		if level < 100:
+		if level < THRESHOLD:
 			print("Doorbell!")
 
 # Send message to all connected clients (client decides notification method)
@@ -132,7 +133,7 @@ def bell_ring():
 	notifier.send_to_all(b'Doorbell!')
 	# Add event to database
 	try:
-		requests.post('http://localhost:8089/ring')
+		requests.post(LOG_URL)
 	except requests.exceptions.ConnectionError:
 		# The log server is down. That's fine; it's optional.
 		print("Can't reach log server, event not logged")

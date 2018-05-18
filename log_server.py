@@ -14,7 +14,7 @@ from sqlalchemy import create_engine, Column, String, Integer, DateTime, Boolean
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 # Local config
-import config
+import config # ImportError? See config_example.py
 
 # App init
 app = Flask(__name__)
@@ -45,9 +45,6 @@ class User(Base, UserMixin):
 	password = Column(String(128))
 
 Base.metadata.create_all(engine)
-
-# Global for web display
-PAGINATE_BY = 10
 
 # Login handler
 login_manager = LoginManager()
@@ -82,11 +79,11 @@ def show_recent_events(page=1):
 	page_index = page - 1
 	
 	try:
-		limit = int(request.args.get("limit", PAGINATE_BY))
+		limit = int(request.args.get("limit", config.PAGINATE_BY))
 	except ValueError:
-		limit = PAGINATE_BY
+		limit = config.PAGINATE_BY
 	if limit < 1 or limit > 100:
-		limit = PAGINATE_BY
+		limit = config.PAGINATE_BY
 	
 	count = session.query(RingEvent).count()
 	
