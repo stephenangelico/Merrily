@@ -8,7 +8,7 @@ After=network.target
 [Service]
 Type=simple
 Environment=VIRTUAL_ENV='`pwd`/env' DISPLAY=:0
-User=`echo $SUDO_USER`
+User=$SUDO_USER
 WorkingDirectory=`pwd`
 ExecStart=`pwd`/env/bin/python3 `pwd`/client.py
 Restart=always
@@ -24,7 +24,7 @@ systemctl --system daemon-reload
 }
 
 if [[ `id -u` -ne 0 ]] ; then
-	echo "This installer must be run as root."
+	echo "This installer must be run using sudo."
 	exit 1
 fi
 read -p "This will install client.py as a system service. Continue? [y/n] " -r
