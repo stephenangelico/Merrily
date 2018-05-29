@@ -144,5 +144,6 @@ if __name__ == '__main__':
 	if len(sys.argv) > 1 and sys.argv[1] == 'testring':
 		test_ring()
 	else:
+		notifier.start_server()
 		threading.Thread(target=notifier.accept_conn).start()
 		ring_listen()

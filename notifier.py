@@ -6,15 +6,16 @@ host = ''
 port = DOORBELL_PORT
 connections = []
 
-sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-try:
-	sock.bind((host,port))
-except socket.error as e:
-	print(str(e))
-	sys.exit()
+def start_server():
+	sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	try:
+		sock.bind((host,port))
+	except socket.error as e:
+		print(str(e))
+		sys.exit()
 
-sock.listen(5)
-print("Server active on port", port)
+	sock.listen(5)
+	print("Server active on port", port)
 
 def send_to_all(data):
 	for connection in connections:
@@ -48,4 +49,5 @@ def accept_conn():
 			connection.close()
 
 if __name__ == '__main__':
+	start_server()
 	accept_conn()
