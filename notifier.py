@@ -7,6 +7,7 @@ port = DOORBELL_PORT
 connections = []
 
 def start_server():
+	global sock
 	sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	try:
 		sock.bind((host,port))
