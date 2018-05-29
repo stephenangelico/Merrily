@@ -7,7 +7,7 @@ import threading
 import notifier
 #from config import 
 
-reed = gpiozero.Button(24) #TODO: Make this configurable
+reed = Button(24) #TODO: Make this configurable
 
 if __name__ == '__main__':
 	if len(sys.argv) > 1 and sys.argv[1] == 'testring':
