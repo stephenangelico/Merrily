@@ -9,6 +9,7 @@ port = DOORBELL_PORT
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.connect((host,port))
+print("Connected to", host, ":", port, file=sys.stderr); sys.stderr.flush()
 
 def wait_for_doorbell():
 	with sock:
