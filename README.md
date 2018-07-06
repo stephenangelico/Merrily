@@ -60,7 +60,8 @@ If for whatever reason you want to run the unit tests as well:
 ```bash
 createdb merrily-test
 ```
-Note that the tests require that the database be empty to begin with.
+Note that the tests require that the testing database be empty to begin with.
+The tests can then be run from the environment with `python tests.py`.
 
 Create a user for web interface:
 ```bash
