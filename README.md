@@ -7,7 +7,7 @@ When the doorbell is pressed, a notification should appear on connected clients.
 This project arose out of a personal need to make the household doorbell more
 noticeable when no occupants are able to hear a normal ring.
 The reference design includes a Raspberry Pi 3 Model B connected via the GPIO
-pins to a charge-discharge circuit (details in merrily/doorbell.py), which in
+pins to a charge-discharge circuit (details in `doorbell.py`), which in
 turn is connected to the speaker leads on the doorbell. When a ring is detected,
 any connected clients will be sent the string "Doorbell!". The included
 `client.py` will listen for that string and send a desktop notification using
