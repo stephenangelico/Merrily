@@ -20,6 +20,12 @@ def start_server():
 	sock.listen(5)
 	print("Server active on port", port)
 
+def describe_socket(sock):
+	try:
+		return "%s:%s" % sock.getpeername()
+	except OSError:
+		return repr(sock)
+
 def send_to_all(data):
 	for connection in connections:
 		try:
@@ -31,6 +37,7 @@ def send_to_all(data):
 			# is broken, just close the connection cleanly.
 			connection.close()
 			connections.remove(connection)
+			print("Client %s disconnected." % describe_socket(connection))
 
 def handler(conn, addr):
 	with conn:
