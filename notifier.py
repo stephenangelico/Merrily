@@ -5,6 +5,7 @@ from config import DOORBELL_PORT # ImportError? See config_example.py
 host = ''
 port = DOORBELL_PORT
 connections = []
+clients = {}
 
 def start_server():
 	global sock
@@ -22,8 +23,8 @@ def start_server():
 
 def describe_socket(sock):
 	try:
-		return "%s:%s" % sock.getpeername()
-	except OSError:
+		return clients[sock.fileno()]
+	except KeyError:
 		return repr(sock)
 
 def send_to_all(data):
@@ -35,9 +36,10 @@ def send_to_all(data):
 			# The SystemD service file should restart the script if
 			# it exited with an error anyway. Therefore, if the pipe
 			# is broken, just close the connection cleanly.
+			print("Client %s disconnected." % describe_socket(connection))
+			del clients[connection.fileno()]
 			connection.close()
 			connections.remove(connection)
-			print("Client %s disconnected." % describe_socket(connection))
 
 def accept_conn():
 	try:
@@ -45,7 +47,8 @@ def accept_conn():
 			while True:
 				conn, addr = sock.accept()
 				connections.append(conn)
-				print('Connecting: ' + str(addr[0]) + ':' + str(addr[1]))
+				print('Connecting: %s:%s' % addr)
+				clients[conn.fileno()] = "%s:%s" % addr
 	finally:
 		for connection in connections:
 			connection.close()
