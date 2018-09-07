@@ -130,6 +130,7 @@ def test_ring():
 
 # Send message to all connected clients (client decides notification method)
 def bell_ring():
+	print("Doorbell!")
 	notifier.send_to_all(b'Doorbell!')
 	# Add event to database
 	try:
