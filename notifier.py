@@ -39,14 +39,6 @@ def send_to_all(data):
 			connections.remove(connection)
 			print("Client %s disconnected." % describe_socket(connection))
 
-def handler(conn, addr):
-	with conn:
-		while True:
-			if not data:
-				print('Disconnecting: ' + str(addr[0]) + ':' + str(addr[1]))
-				break
-	connections.remove(conn)
-
 def accept_conn():
 	try:
 		with sock:
