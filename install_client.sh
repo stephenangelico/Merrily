@@ -10,7 +10,7 @@ Type=simple
 Environment=VIRTUAL_ENV='`pwd`/env' DISPLAY=:0
 User=$SUDO_USER
 WorkingDirectory=`pwd`
-ExecStart=`pwd`/env/bin/python3 `pwd`/client.py
+ExecStart=`pwd`/env/bin/python3 -u `pwd`/client.py
 Restart=always
 RestartSec=5
 

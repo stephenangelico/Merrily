@@ -10,7 +10,7 @@ Type=simple
 Environment=VIRTUAL_ENV='`pwd`/env'
 User=$SUDO_USER
 WorkingDirectory=`pwd`
-ExecStart=`pwd`/env/bin/python3 `pwd`/log_server.py
+ExecStart=`pwd`/env/bin/python3 -u `pwd`/log_server.py
 Restart=always
 RestartSec=5
 
