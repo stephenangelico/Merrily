@@ -1,5 +1,5 @@
 #!/bin/bash
-# Install SystemD service for the hardware doorbell detector
+# Install SystemD service for the client
 instl ()
 { echo "[Unit]
 Description=Doorbell Client

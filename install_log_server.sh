@@ -1,5 +1,5 @@
 #!/bin/bash
-# Install SystemD service for the hardware doorbell detector
+# Install SystemD service for the web logging server
 instl ()
 { echo "[Unit]
 Description=Merrily Log Server
