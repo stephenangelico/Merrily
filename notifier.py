@@ -27,7 +27,7 @@ def describe_socket(sock):
 		return repr(sock)
 
 def send_to_all(data):
-	for connection in connections:
+	for connection in connections[:]:
 		try:
 			connection.send(bytes(data))
 		except BrokenPipeError:
