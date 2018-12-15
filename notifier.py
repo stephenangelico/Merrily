@@ -31,7 +31,7 @@ def send_to_all(data):
 	for connection in connections[:]:
 		try:
 			connection.send(bytes(data))
-		except (BrokenPipeError, ConnectionResetError): #TODO: Handle OSError 113 No route to host
+		except (BrokenPipeError, ConnectionResetError):
 			# If the client loses its connection, it should restart.
 			# The SystemD service file should restart the script if
 			# it exited with an error anyway. Therefore, if the pipe
@@ -40,6 +40,13 @@ def send_to_all(data):
 			del clients[connection.fileno()]
 			connection.close()
 			connections.remove(connection)
+		except OSError as e:
+				if e.errno==113:
+					print("Client %s disconnected." % describe_socket(connection))
+					del clients[connection.fileno()]
+					connection.close()
+					connections.remove(connection)
+				else: raise
 
 def accept_conn():
 	try:
