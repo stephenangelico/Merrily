@@ -38,6 +38,7 @@ import RPi.GPIO as GPIO
 import time
 import sys
 from statistics import mean
+from collections import deque
 from config import A_PIN, B_PIN, THRESHOLD, LOG_URL # ImportError? See config_example.py
 
 # Import stuff for triggering the doorbell
@@ -118,15 +119,19 @@ def test_listen():
 
 # Averaging test function
 def test_ring():
+	DELTA = 30
 	while True:
 		levels = []
+		history = deque(maxlen=5)
 		for i in range(40):
 			levels.append(analog_read())
 			time.sleep(0.025)
 		level = mean(levels)
 		print(level)
-		if level < THRESHOLD:
+		if level < mean(history) - DELTA:
 			print("Doorbell!")
+		else:
+			history.append(level)
 
 # Send message to all connected clients (client decides notification method)
 def bell_ring():
