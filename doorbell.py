@@ -120,18 +120,20 @@ def test_listen():
 # Averaging test function
 def test_ring():
 	DELTA = 30
+	history = deque(maxlen=5)
 	while True:
 		levels = []
-		history = deque(maxlen=5)
 		for i in range(40):
 			levels.append(analog_read())
 			time.sleep(0.025)
 		level = mean(levels)
 		print(level)
+		print(history)
+		if len(history) == 0:
+			history.append(level) # Will append the first value twice, but that's okay
 		if level < mean(history) - DELTA:
 			print("Doorbell!")
-		else:
-			history.append(level)
+		history.append(level)
 
 # Send message to all connected clients (client decides notification method)
 def bell_ring():
