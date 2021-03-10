@@ -154,3 +154,24 @@ sudo ./install_client.sh # Client side
 ```bash
 sudo ./install_log_server.sh # Web log
 ```
+
+Protocol:
+=========
+
+TODO: Implement
+
+Two-way socket connection between doorbell and listeners.
+The publisher, or server, is the doorbell. The listening clients are any
+machines wishing to be rung with the doorbell. The server will treat any
+connection as a subscription to all events.
+All messages between the server and clients MUST terminate with '\r\n'.
+Upon connection, the server will greet with "Latest Ring: <id> <time>"
+When the doorbell rings, the server emits an event "New Ring: <id> <time>".
+Clients will compare the ring ID with the latest ID that they have heard, and
+take action as desired.
+If the server resets, it may emit a lower ring ID than a client had heard
+previously. In this case, the client will check if the new timestamp is later
+than the previously stored one.
+Ring IDs will be monotonically increasing positive integers. An ID of 0 means no
+last ring. Timestamps will sent as Unix time.
+
