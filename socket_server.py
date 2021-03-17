@@ -25,7 +25,25 @@ def accept_conn():
 		while True:
 			conn, addr = sock.accept()
 			print('Connecting: %s:%s' % addr)
-			conn.close()
+			threading.Thread(target=read_socket, args=(conn,), daemon=True).start()
+
+def read_socket(conn):
+	buffer = b""
+	with conn:
+		while True:
+			data = conn.recv(1024)
+			if not data:
+				break
+			buffer += data
+			while b"\n" in buffer:
+				line, buffer = buffer.split(b"\n", 1)
+				line = line.rstrip().decode("utf-8")
+				if ":" in line:
+					attr, value = line.split(":", 1)
+					print("Attr:", attr)
+					print("Value:", value)
+				else:
+					print(line)
 
 if __name__ == '__main__':
 	start_server()
