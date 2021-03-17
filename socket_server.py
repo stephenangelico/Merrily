@@ -25,7 +25,7 @@ def accept_conn():
 		while True:
 			conn, addr = sock.accept()
 			print('Connecting: %s:%s' % addr)
-			threading.Thread(target=read_socket, args=(conn,), daemon=True).start()
+			threading.Thread(target=write_socket, args=(conn, "Hello: world"), daemon=True).start()
 
 def read_socket(conn):
 	buffer = b""
@@ -44,6 +44,11 @@ def read_socket(conn):
 					print("Value:", value)
 				else:
 					print(line)
+
+def write_socket(conn, message):
+	message += "\r\n"
+	data = message.encode("utf-8")
+	conn.send(data)
 
 if __name__ == '__main__':
 	start_server()
