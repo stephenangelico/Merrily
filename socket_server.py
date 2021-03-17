@@ -25,6 +25,7 @@ def accept_conn():
 		while True:
 			conn, addr = sock.accept()
 			print('Connecting: %s:%s' % addr)
+			#TODO: start tracking latest Ring event and send on client connection
 			threading.Thread(target=write_socket, args=(conn, "Hello: world"), daemon=True).start()
 
 def read_socket(conn):
