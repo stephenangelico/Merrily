@@ -30,6 +30,12 @@ def accept_conn():
 			#TODO: start tracking latest Ring event and send on client connection
 			threading.Thread(target=write_socket, args=(conn, "Hello: world"), daemon=True).start()
 
+def close_conn(conn):
+	print('Disconnecting: %s:%s' % conn.getpeername())
+	conn.close()
+	if conn in connections:
+		connections.remove(conn)
+
 def read_socket(conn):
 	buffer = b""
 	with conn:
