@@ -5,6 +5,7 @@ from config import DOORBELL_PORT # ImportError? See config_example.py
 
 host = ''
 port = 8090
+connections = []
 
 def start_server():
 	global sock
@@ -25,6 +26,7 @@ def accept_conn():
 		while True:
 			conn, addr = sock.accept()
 			print('Connecting: %s:%s' % addr)
+			connections.append(conn)
 			#TODO: start tracking latest Ring event and send on client connection
 			threading.Thread(target=write_socket, args=(conn, "Hello: world"), daemon=True).start()
 
@@ -50,6 +52,11 @@ def write_socket(conn, message):
 	message += "\r\n"
 	data = message.encode("utf-8")
 	conn.send(data)
+	#TODO: handle various errors including lost connections
+
+def broadcast(message):
+	for conn in connections[:]: # Sliced to allow free manipulation of connections list if necessary
+		write_socket(conn, message)
 
 if __name__ == '__main__':
 	start_server()
