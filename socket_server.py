@@ -1,11 +1,14 @@
 import socket
 import sys
 import threading
+import time
 from config import DOORBELL_PORT # ImportError? See config_example.py
 
 host = ''
 port = 8090
 connections = []
+ring_id = 0
+ring_time = time.time()
 
 def start_server():
 	global sock
@@ -51,8 +54,13 @@ def read_socket(conn):
 				line = line.rstrip().decode("utf-8")
 				if ":" in line:
 					attr, value = line.split(":", 1)
-					print("Attr:", attr)
-					print("Value:", value)
+					if attr == "Broadcast":
+						#TODO: Figure out if this client is allowed to broadcast
+						if value == "Ring":
+							ring(conn)
+					else:
+						print("Attr:", attr)
+						print("Value:", value)
 				else:
 					print(line)
 
@@ -68,6 +76,14 @@ def broadcast(message, source=None):
 		recipients.remove(source)
 	for conn in recipients:
 		write_socket(conn, message)
+
+def ring(source):
+	global ring_id
+	global ring_time
+	ring_id += 1
+	ring_time = time.time()
+	event = "New Ring: %r %r %s:%s" % (ring_id, ring_time, source.getpeername()[0], source.getpeername()[1])
+	broadcast(event, source)
 
 if __name__ == '__main__':
 	start_server()
