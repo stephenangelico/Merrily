@@ -6,6 +6,9 @@ from config import DOORBELL_PORT # ImportError? See config_example.py
 host = ''
 port = 8090
 connections = []
+# Temporary magic identifier for the client that is allowed to broadcast
+# There's nothing more permanent than a temporary piece of hard-coded magic
+source = None
 
 def start_server():
 	global sock
@@ -63,7 +66,10 @@ def write_socket(conn, message):
 	#TODO: handle various errors including lost connections
 
 def broadcast(message):
-	for conn in connections[:]: # Sliced to allow free manipulation of connections list if necessary
+	recipients = connections[:] # Sliced to allow free manipulation of connections list if necessary
+	if source in recipients:
+		recipients.remove(source)
+	for conn in recipients:
 		write_socket(conn, message)
 
 if __name__ == '__main__':
