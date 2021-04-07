@@ -9,6 +9,7 @@ port = 8090
 connections = []
 ring_id = 0
 ring_time = time.time()
+latest_ring = "Latest Ring: %r %r None" % (ring_id, ring_time)
 
 def start_server():
 	global sock
@@ -30,8 +31,7 @@ def accept_conn():
 			conn, addr = sock.accept()
 			print('Connecting: %s:%s' % addr)
 			connections.append(conn)
-			#TODO: start tracking latest Ring event and send on client connection
-			threading.Thread(target=write_socket, args=(conn, "Hello: world"), daemon=True).start()
+			threading.Thread(target=write_socket, args=(conn, latest_ring), daemon=True).start()
 			threading.Thread(target=read_socket, args=(conn,), daemon=True).start()
 			
 
@@ -81,10 +81,12 @@ def broadcast(message, source=None):
 def ring(source):
 	global ring_id
 	global ring_time
+	global latest_ring
 	ring_id += 1
 	ring_time = time.time()
-	event = "New Ring: %r %r %s:%s" % (ring_id, ring_time, source.getpeername()[0], source.getpeername()[1])
-	broadcast(event, source)
+	event = "Ring: %r %r %s:%s" % (ring_id, ring_time, source.getpeername()[0], source.getpeername()[1])
+	latest_ring = ("Latest " + event)
+	broadcast(("New " + event), source)
 
 if __name__ == '__main__':
 	start_server()
