@@ -28,7 +28,7 @@ def start_server():
 def accept_conn():
 	with sock:
 		while True:
-			conn, addr = sock.accept()
+			conn, addr = sock.accept() # TODO: Handle clients unexpectedly disconnecting
 			print('Connecting: %s:%s' % addr)
 			connections.append(conn)
 			threading.Thread(target=write_socket, args=(conn, latest_ring), daemon=True).start()
