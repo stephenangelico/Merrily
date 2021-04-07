@@ -173,5 +173,6 @@ If the server resets, it may emit a lower ring ID than a client had heard
 previously. In this case, the client will check if the new timestamp is later
 than the previously stored one.
 Ring IDs will be monotonically increasing positive integers. An ID of 0 means no
-last ring. Timestamps will sent as Unix time.
+last ring. Timestamps will sent as Unix time. Source will be "None" if ID is 0,
+or an address (eg "127.0.0.1:12345").
 
