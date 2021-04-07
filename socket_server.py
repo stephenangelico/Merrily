@@ -54,6 +54,7 @@ def read_socket(conn):
 				line = line.rstrip().decode("utf-8")
 				if ":" in line:
 					attr, value = line.split(":", 1)
+					value = value.strip()
 					if attr == "Broadcast":
 						#TODO: Figure out if this client is allowed to broadcast
 						if value == "Ring":
