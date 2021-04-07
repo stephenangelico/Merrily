@@ -33,6 +33,7 @@ def accept_conn():
 			connections.append(conn)
 			threading.Thread(target=write_socket, args=(conn, latest_ring), daemon=True).start()
 			threading.Thread(target=read_socket, args=(conn,), daemon=True).start()
+			
 
 def close_conn(conn):
 	print('Disconnecting: %s:%s' % conn.getpeername())
@@ -52,7 +53,8 @@ def read_socket(conn):
 				line, buffer = buffer.split(b"\n", 1)
 				line = line.rstrip().decode("utf-8")
 				if ":" in line:
-					attr, value = line.split(": ", 1)
+					attr, value = line.split(":", 1)
+					value = value.strip()
 					if attr == "Broadcast":
 						#TODO: Figure out if this client is allowed to broadcast
 						if value == "Ring":
