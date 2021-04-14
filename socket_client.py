@@ -1,9 +1,10 @@
 import socket
 import sys
+import subprocess
 import threading
 import time
 
-from config import DOORBELL_SERVER, DOORBELL_PORT
+from config import DOORBELL_SERVER, DOORBELL_PORT, PLAYER_COMMAND
 
 host = 'localhost'
 port = 8090
@@ -61,7 +62,8 @@ def read_socket():
 
 def ring():
 	# TODO: replace with notification commands
-	print("Doorbell!")
+	subprocess.run(["notify-send", "Doorbell!", "Someone's knocking at the door!"])
+	subprocess.run(PLAYER_COMMAND) # Throw an error if not available
 
 if __name__ == '__main__':
 	start_client()

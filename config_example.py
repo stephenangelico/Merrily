@@ -31,6 +31,8 @@ LOG_URL = "http://localhost:8089/ring"
 # Client values
 DOORBELL_SERVER = "localhost"
 DOORBELL_PORT = 8088
+PLAYER_COMMAND = ["cvlc", "ring.wav", "--play-and-exit"]
+# Deprecated values for old client
 PLAYER = "cvlc"
 PLAYER_ARGS = "--play-and-exit"
 ALERT_FILE = "ring.wav"
