@@ -42,9 +42,13 @@ from statistics import mean
 from config import A_PIN, B_PIN, THRESHOLD, LOG_URL # ImportError? See config_example.py
 
 # Import stuff for triggering the doorbell
+import socket
 import threading
 import notifier
 import requests
+from config import DOORBELL_SERVER, DOORBELL_PORT, TOKEN
+host = 'localhost'
+port = 8090
 
 # instantiate GPIO as an object
 GPIO.setmode(GPIO.BCM)
@@ -140,6 +144,7 @@ def test_ring():
 def bell_ring():
 	print("Doorbell!")
 	notifier.send_to_all(b'Doorbell!')
+	#sock.send(b'Broadcast: Ring')
 	# Add event to database
 	try:
 		requests.post(LOG_URL)
@@ -148,6 +153,12 @@ def bell_ring():
 		print("Can't reach log server, event not logged")
 	# Avoid spamming messages in case of button (or user) fault
 	time.sleep(5)
+
+def socket_client():
+	global sock
+	sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	sock.connect((host,port))
+	sock.send(b'Token: %r' % TOKEN)
 
 if __name__ == '__main__':
 	if len(sys.argv) > 1 and sys.argv[1] == 'testring':
