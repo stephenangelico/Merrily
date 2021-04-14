@@ -2,7 +2,7 @@ import socket
 import sys
 import threading
 import time
-from config import DOORBELL_PORT # ImportError? See config_example.py
+from config import DOORBELL_PORT, TOKEN # ImportError? See config_example.py
 
 host = ''
 port = 8090
@@ -44,6 +44,7 @@ def close_conn(conn):
 
 def read_socket(conn):
 	buffer = b""
+	client_can_broadcast = False
 	with conn:
 		while True:
 			data = conn.recv(1024)
@@ -56,10 +57,12 @@ def read_socket(conn):
 				if ":" in line:
 					attr, value = line.split(":", 1)
 					value = value.strip()
-					if attr == "Broadcast":
-						#TODO: Figure out if this client is allowed to broadcast
+					if attr == "Broadcast" and client_can_broadcast:
 						if value == "Ring":
 							ring(conn)
+					elif attr == "Token":
+						if value == TOKEN:
+							client_can_broadcast = True
 					else:
 						print("Attr:", attr)
 						print("Value:", value)
