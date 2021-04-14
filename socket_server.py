@@ -36,7 +36,8 @@ def accept_conn():
 			
 
 def close_conn(conn):
-	print('Disconnecting: %s:%s' % conn.getpeername())
+	#print('Disconnecting: %s:%s' % conn.getpeername()) # Bombs on Bad File Descriptor
+	# TODO: Grab describe_socket() from old notifier.py
 	conn.close()
 	if conn in connections:
 		connections.remove(conn)
@@ -68,8 +69,13 @@ def read_socket(conn):
 def write_socket(conn, message):
 	message += "\r\n"
 	data = message.encode("utf-8")
-	conn.send(data)
-	#TODO: handle various errors including lost connections
+	try:
+		conn.send(data)
+	except OSError as e:
+		if e.errno==9:
+			close_conn(conn)
+		else: raise
+	#TODO: handle more errors as they arise
 
 def broadcast(message, source=None):
 	recipients = connections[:] # Sliced to allow free manipulation of connections list if necessary
