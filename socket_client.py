@@ -67,6 +67,6 @@ def ring():
 if __name__ == '__main__':
 	start_client()
 	try:
-		read_socket() # TODO: Send exit signal to server on KeyboardInterrupt or quit
+		read_socket()
 	except KeyboardInterrupt:
 		sock.close()
