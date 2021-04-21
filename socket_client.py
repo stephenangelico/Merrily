@@ -9,6 +9,7 @@ from config import DOORBELL_SERVER, DOORBELL_PORT, NOTIFY_COMMAND, PLAYER_COMMAN
 host = 'localhost'
 port = 8090
 latest_ring = {"id": 0, "timestamp": 0.0, "source": ''}
+heartbeat = 0
 
 def start_client():
 	global sock
@@ -59,14 +60,27 @@ def read_socket():
 							ring() # Clearly a new ring
 						elif timestamp > (latest_ring["timestamp"] + 5):
 							ring() # New ring after server reset
+				elif attr == "Heartbeat":
+					global heartbeat
+					heartbeat = time.time()
 
 def ring():
 	subprocess.run(NOTIFY_COMMAND)
 	subprocess.run(PLAYER_COMMAND) # Throw an error if not available
 
+def heartbeat():
+	while True:
+		sock.send(("Heartbeat: Send\r\n").encode("utf-8"))
+		time.sleep(5)
+		if time.time() > (heartbeat + 5): # No response from server after 5 sec
+			pass # TODO: restart the connection
+		else:
+			time.sleep(55)
+
 if __name__ == '__main__':
 	start_client()
 	try:
-		read_socket()
+		threading.Thread(target=read_socket, args=(,), daemon=True).start()
+		threading.Thread(target=heartbeat, args(,), daemon=True).start()
 	except KeyboardInterrupt:
 		sock.close()
