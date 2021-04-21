@@ -63,6 +63,9 @@ def read_socket(conn):
 					elif attr == "Token":
 						if value == TOKEN:
 							client_can_broadcast = True
+					elif attr == "Heartbeat":
+						# TODO: avoid heartbeat floods
+						write_socket(conn, "Heartbeat: Response")
 					else:
 						print("Attr:", attr)
 						print("Value:", value)
