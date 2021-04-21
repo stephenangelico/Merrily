@@ -4,7 +4,7 @@ import subprocess
 import threading
 import time
 
-from config import DOORBELL_SERVER, DOORBELL_PORT, PLAYER_COMMAND
+from config import DOORBELL_SERVER, DOORBELL_PORT, NOTIFY_COMMAND, PLAYER_COMMAND
 
 host = 'localhost'
 port = 8090
@@ -14,7 +14,7 @@ def start_client():
 	global sock
 	sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	sock.connect((host,port))
-	print("Connected to %s:%s" % (host, port), file=sys.stderr); sys.stderr.flush()
+	print("Connected to %s:%s" % (host, port), file=sys.stderr, flush=True)
 
 def read_socket():
 	buffer = b""
@@ -61,8 +61,7 @@ def read_socket():
 							ring() # New ring after server reset
 
 def ring():
-	# TODO: replace with notification commands
-	subprocess.run(["notify-send", "Doorbell!", "Someone's knocking at the door!"])
+	subprocess.run(NOTIFY_COMMAND)
 	subprocess.run(PLAYER_COMMAND) # Throw an error if not available
 
 if __name__ == '__main__':

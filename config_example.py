@@ -32,7 +32,8 @@ LOG_URL = "http://localhost:8089/ring"
 DOORBELL_SERVER = "localhost"
 DOORBELL_PORT = 8088
 TOKEN = "" # To generate random token: `base64.b64encode(os.urandom(12)).decode("ascii")`
-PLAYER_COMMAND = ["cvlc", "ring.wav", "--play-and-exit"]
+NOTIFY_COMMAND = ["notify-send", "Doorbell!", "Someone's knocking at the door!"]
+PLAYER_COMMAND = ["cvlc", "ring.wav", "--play-and-exit", "--extraintf", ""]
 # Deprecated values for old client
 PLAYER = "cvlc"
 PLAYER_ARGS = "--play-and-exit"
