@@ -62,6 +62,7 @@ def read_socket(conn):
 							ring(conn)
 					elif attr == "Token":
 						if value == TOKEN:
+							print(conn.getpeername(), "can broadcast")
 							client_can_broadcast = True
 					elif attr == "Heartbeat":
 						write_socket(conn, "Heartbeat: Response")
