@@ -1,0 +1,22 @@
+(env) stephen@F-18Hornet:~/Merrily$ python3 socket_server.py
+Server active on port 8090
+Connecting: 192.168.2.68:47726
+Connecting: 127.0.0.1:48680
+Exception in thread Thread-4:
+Traceback (most recent call last):
+  File "/usr/lib/python3.5/threading.py", line 914, in _bootstrap_inner
+    self.run()
+  File "/usr/lib/python3.5/threading.py", line 862, in run
+    self._target(*self._args, **self._kwargs)
+  File "socket_server.py", line 50, in read_socket
+    data = conn.recv(1024)
+ConnectionResetError: [Errno 104] Connection reset by peer
+
+^CTraceback (most recent call last):
+  File "socket_server.py", line 105, in <module>
+    accept_conn()
+  File "socket_server.py", line 31, in accept_conn
+    conn, addr = sock.accept() # TODO: Handle clients unexpectedly disconnecting
+  File "/usr/lib/python3.5/socket.py", line 195, in accept
+    fd, addr = self._accept()
+KeyboardInterrupt
