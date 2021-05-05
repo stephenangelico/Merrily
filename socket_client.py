@@ -16,6 +16,7 @@ class Conn(object):
 	def __init__(self):
 		self.connect()
 		threading.Thread(target=self.read_socket, daemon=True).start()
+		self.server_lost = threading.Event()
 		self.keepalive()
 
 	def connect(self):
@@ -68,6 +69,7 @@ class Conn(object):
 					elif attr == "Heartbeat":
 						self.heartbeat = True
 						print("Heartbeat")
+		self.server_lost.set()
 
 	def ring(self):
 		subprocess.run(NOTIFY_COMMAND)
@@ -77,12 +79,13 @@ class Conn(object):
 		while self.heartbeat:
 			self.heartbeat = False
 			self.sock.send(("Heartbeat: Send\r\n").encode("utf-8"))
-			time.sleep(10)
+			print("Heartbeat sent")
+			if self.server_lost.wait(10):
+				break
 		self.quit()
 
 	def quit(self):
 		self.sock.close()
-
 
 if __name__ == '__main__':
 	try:
