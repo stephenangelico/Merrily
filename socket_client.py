@@ -97,4 +97,4 @@ if __name__ == '__main__':
 				print("Lost connection to server")
 				time.sleep(5)
 	except KeyboardInterrupt:
-		conn.quit()
+		pass # Quit quietly
