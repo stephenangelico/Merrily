@@ -158,7 +158,7 @@ def socket_client():
 	global sock
 	sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	sock.connect((host,port))
-	sock.send(b'Token: %r\r\n' % TOKEN)
+	sock.send(b'Token: %s\r\n' % TOKEN)
 
 if __name__ == '__main__':
 	if len(sys.argv) > 1 and sys.argv[1] == 'testring':
