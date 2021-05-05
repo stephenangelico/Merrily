@@ -87,6 +87,11 @@ class Conn(object):
 if __name__ == '__main__':
 	try:
 		while True:
-			conn = Conn()
+			try:
+				conn = Conn()
+			except ConnectionRefusedError:
+				#TODO: Be less noisy
+				print("Lost connection to server")
+				time.sleep(5)
 	except KeyboardInterrupt:
 		conn.quit()
