@@ -144,7 +144,7 @@ def test_ring():
 def bell_ring():
 	print("Doorbell!")
 	notifier.send_to_all(b'Doorbell!')
-	#sock.send(b'Broadcast: Ring')
+	sock.send(b'Broadcast: Ring')
 	# Add event to database
 	try:
 		requests.post(LOG_URL)
@@ -166,4 +166,5 @@ if __name__ == '__main__':
 	else:
 		notifier.start_server()
 		threading.Thread(target=notifier.accept_conn).start()
+		socket_client()
 		ring_listen()
