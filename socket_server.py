@@ -38,6 +38,7 @@ def accept_conn():
 def close_conn(conn):
 	#print('Disconnecting: %s:%s' % conn.getpeername()) # Bombs on Bad File Descriptor
 	# TODO: Grab describe_socket() from old notifier.py
+	print("Client disconnecting")
 	conn.close()
 	if conn in connections:
 		connections.remove(conn)
