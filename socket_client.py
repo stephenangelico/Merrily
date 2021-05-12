@@ -6,7 +6,7 @@ import time
 
 from config import DOORBELL_SERVER, DOORBELL_PORT, NOTIFY_COMMAND, PLAYER_COMMAND
 
-host = 'localhost'
+host = DOORBELL_SERVER
 port = 8090
 
 class Conn(object):
