@@ -26,12 +26,12 @@ class TestingConfig(object):
 A_PIN = 18
 B_PIN = 23
 THRESHOLD = 100
+TOKEN = "" # To generate random token: `base64.b64encode(os.urandom(12)).decode("ascii")`
 LOG_URL = "http://localhost:8089/ring"
 
 # Client values
 DOORBELL_SERVER = "localhost"
 DOORBELL_PORT = 8088
-TOKEN = "" # To generate random token: `base64.b64encode(os.urandom(12)).decode("ascii")`
 NOTIFY_COMMAND = ["notify-send", "Doorbell!", "Someone's knocking at the door!"]
 PLAYER_COMMAND = ["cvlc", "ring.wav", "--play-and-exit", "--extraintf", ""]
 # Deprecated values for old client
