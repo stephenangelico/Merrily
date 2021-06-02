@@ -70,6 +70,6 @@ else:
 		escalate = input("Could not write service file. Would you like to run this as root?\n")
 		if escalate[0] in ["Y", "y"]:
 			os.execvp("sudo",
-				(bits["environment"], sys.executable, os.path.realpath(sys.argv[0]), "-u", bits["user"], args.module))
+				("-E", bits["environment"], sys.executable, os.path.realpath(sys.argv[0]), "-u", bits["user"], args.module))
 		else:
 			print("Aborted.")
