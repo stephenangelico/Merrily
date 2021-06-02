@@ -68,7 +68,6 @@ class Conn(object):
 								self.ring() # New ring after server reset
 					elif attr == "Heartbeat":
 						self.heartbeat = True
-						print("Heartbeat")
 		self.server_lost.set()
 
 	def ring(self):
@@ -79,7 +78,6 @@ class Conn(object):
 		while self.heartbeat:
 			self.heartbeat = False
 			self.sock.send(("Heartbeat: Send\r\n").encode("utf-8"))
-			print("Heartbeat sent")
 			if self.server_lost.wait(10):
 				break
 		self.quit()
