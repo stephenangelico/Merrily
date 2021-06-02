@@ -4,7 +4,7 @@ import sys
 import subprocess
 import argparse
 parser = argparse.ArgumentParser(description="Install Merrily service files")
-parser.add_argument("module", choices=['client', 'server', 'doorbell'], help="Merrily module to install")
+parser.add_argument("module", choices=['client', 'server', 'doorbell'], metavar="module", help="Merrily module to install (client, server or doorbell)")
 parser.add_argument("-u", "--user", action="store", default=str(os.getuid()), help="User to run service as")
 parser.add_argument("-n", "--dry-run", action="store_true", help="Print to screen only")
 args = parser.parse_args()
