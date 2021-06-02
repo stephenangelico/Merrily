@@ -5,7 +5,7 @@ from subprocess import check_call
 from config import DOORBELL_SERVER, DOORBELL_PORT, PLAYER, PLAYER_ARGS, ALERT_FILE # ImportError? See config_example.py
 
 host = DOORBELL_SERVER
-port = DOORBELL_PORT
+port = 8090
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.connect((host,port))

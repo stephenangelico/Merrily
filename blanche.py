@@ -5,7 +5,7 @@ import time
 from config import DOORBELL_PORT, TOKEN # ImportError? See config_example.py
 
 host = ''
-port = 8090
+port = DOORBELL_PORT
 connections = []
 ring_id = 0
 ring_time = time.time()

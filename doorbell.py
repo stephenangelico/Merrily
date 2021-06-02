@@ -47,8 +47,8 @@ import threading
 import notifier
 import requests
 from config import DOORBELL_SERVER, DOORBELL_PORT, TOKEN
-host = 'localhost'
-port = 8090
+host = DOORBELL_SERVER
+port = DOORBELL_PORT
 
 # instantiate GPIO as an object
 GPIO.setmode(GPIO.BCM)

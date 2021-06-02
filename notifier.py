@@ -3,7 +3,7 @@ import sys
 from config import DOORBELL_PORT # ImportError? See config_example.py
 
 host = ''
-port = DOORBELL_PORT
+port = 8090
 connections = []
 clients = {}
 

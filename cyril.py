@@ -7,7 +7,7 @@ import time
 from config import DOORBELL_SERVER, DOORBELL_PORT, NOTIFY_COMMAND, PLAYER_COMMAND
 
 host = DOORBELL_SERVER
-port = 8090
+port = DOORBELL_PORT
 
 class Conn(object):
 	latest_ring = {"id": 0, "timestamp": 0.0, "source": ''}
