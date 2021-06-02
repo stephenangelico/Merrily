@@ -72,7 +72,8 @@ class Conn(object):
 
 	def ring(self):
 		subprocess.run(NOTIFY_COMMAND)
-		subprocess.run(PLAYER_COMMAND) # Throw an error if not available
+		if PLAYER_COMMAND:
+			subprocess.run(PLAYER_COMMAND) # Throw an error if not available
 
 	def keepalive(self):
 		while self.heartbeat:
