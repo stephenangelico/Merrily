@@ -96,6 +96,7 @@ Server to broadcast notifications:
 
 ```bash
 python3 blanche.py
+```
 
 Client to receive notifications:
 
