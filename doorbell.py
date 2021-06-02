@@ -39,14 +39,11 @@ import time
 import sys
 from statistics import mean
 #from collections import deque # For calculating delta
-from config import A_PIN, B_PIN, THRESHOLD, LOG_URL # ImportError? See config_example.py
+from config import A_PIN, B_PIN, THRESHOLD, DOORBELL_SERVER, DOORBELL_PORT, TOKEN # ImportError? See config_example.py
 
 # Import stuff for triggering the doorbell
 import socket
 import threading
-import notifier
-import requests
-from config import DOORBELL_SERVER, DOORBELL_PORT, TOKEN
 host = DOORBELL_SERVER
 port = DOORBELL_PORT
 
@@ -143,14 +140,7 @@ def test_ring():
 # Send message to all connected clients (client decides notification method)
 def bell_ring():
 	print("Doorbell!")
-	notifier.send_to_all(b'Doorbell!')
 	sock.send(("Broadcast: Ring\r\n").encode("utf-8"))
-	# Add event to database
-	try:
-		requests.post(LOG_URL)
-	except requests.exceptions.ConnectionError:
-		# The log server is down. That's fine; it's optional.
-		print("Can't reach log server, event not logged")
 	# Avoid spamming messages in case of button (or user) fault
 	time.sleep(5)
 
@@ -164,7 +154,5 @@ if __name__ == '__main__':
 	if len(sys.argv) > 1 and sys.argv[1] == 'testring':
 		test_ring()
 	else:
-		notifier.start_server()
-		threading.Thread(target=notifier.accept_conn).start()
 		socket_client()
 		ring_listen()

@@ -1,7 +1,1 @@
-Flask
-flask-login
 RPi.GPIO
-gpiozero
-requests
-sqlalchemy
-psycopg2

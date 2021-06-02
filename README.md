@@ -19,7 +19,7 @@ Installation
 ============
 
 Tested on Ubuntu MATE 16.04 and up, but should work on any system with
-Python 3.4+ (with venv and pip) and `notify-send`. VLC is also used to play
+Python 3.4+ and `notify-send`. VLC is also used to play
 the alert tone, but can be substituted with any media player.
 Install those from your package manager if they are not installed already.
 
@@ -31,37 +31,12 @@ cd Merrily
 
 If you are setting up the doorbell sensor, install dependencies:
 ```bash
-pip install -r requirements.txt
+python3 -m pip install -r requirements.txt
 ```
 
 Copy `config_example.py` to `config.py` and modify it as necessary.
 
 If you just want to run the client, see [Running](#running).
-
-Log server setup (optional)
-===========================
-
-The log server requires a configured PostgreSQL server. Run these commands from
-the installation directory or virtual environment.
-
-Create database:
-```bash
-createdb merrily
-```
-
-If for whatever reason you want to run the unit tests as well:
-```bash
-createdb merrily-test
-```
-Note that the tests require that the testing database be empty to begin with.
-The tests can then be run from the environment with `python tests.py`.
-
-Create a user for web interface:
-```bash
-python log_server.py adduser
-```
-
-Modify `config.py` with your database credentials.
 
 Connecting to your doorbell
 ===========================
@@ -131,13 +106,7 @@ python3 cyril.py
 Make sure to specify the correct host to connect to in `config.py`. Also check
 that the media player command is correct or empty brackets (ie `[]`).
 
-Web logging server:
-
-```bash
-python log_server.py
-```
-
-There is also an installer to create and start a SystemD service:
+There is also an installer to create and start SystemD services for each module:
 
 ```bash
 python3 install.py --help
