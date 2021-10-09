@@ -15,6 +15,10 @@ any connected clients will be sent a notification using `notify-send`.
 Also included is an optional web-based logging system built with Flask and
 PostgreSQL, however, this requires more setup than the main notifier.
 
+TODO: Software drift compensation by changing threshold according to reference
+levels - inspired by AT42QT1010 touch sensor drift compensation
+(https://cdn-shop.adafruit.com/datasheets/AT42QT1010.pdf)
+
 Installation
 ============
 
